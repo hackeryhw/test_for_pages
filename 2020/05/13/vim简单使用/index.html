@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="vim用法：查找模式：&#x2F;string    向下查找    ?string    向上查找    #查找光标覆盖的单词 替换：末行模式 r 位置与移动：G：文件末    gg：文件头    行首：^    行末：$ e:每段string移动     ctrl+o 回到之前那个位置    ctrl+i回到之前回到的那个位置 复制剪切等：复制： yy    nyy(n行复制) 粘贴：p    P 撤销">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vim简单使用">
+<meta property="og:url" content="http://yoursite.com/2020/05/13/vim%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="vim用法：查找模式：&#x2F;string    向下查找    ?string    向上查找    #查找光标覆盖的单词 替换：末行模式 r 位置与移动：G：文件末    gg：文件头    行首：^    行末：$ e:每段string移动     ctrl+o 回到之前那个位置    ctrl+i回到之前回到的那个位置 复制剪切等：复制： yy    nyy(n行复制) 粘贴：p    P 撤销">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-05-13T13:25:06.532Z">
+<meta property="article:modified_time" content="2020-02-04T04:43:24.470Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>vim简单使用</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/gabithume" target="_blank" rel="noopener">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/05/13/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%BC%96%E7%A8%8B/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/05/13/newpapername/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/05/13/vim%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/05/13/vim%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/&text=vim简单使用" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/05/13/vim%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/&title=vim简单使用" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/05/13/vim%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/&is_video=false&description=vim简单使用" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=vim简单使用&body=Check out this article: http://yoursite.com/2020/05/13/vim%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/05/13/vim%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/&title=vim简单使用" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/05/13/vim%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/&title=vim简单使用" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/05/13/vim%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/&title=vim简单使用" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/05/13/vim%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/&title=vim简单使用" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/05/13/vim%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/&name=vim简单使用&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#vim用法："><span class="toc-number">1.</span> <span class="toc-text">vim用法：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#查找模式："><span class="toc-number">1.1.</span> <span class="toc-text">查找模式：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#位置与移动："><span class="toc-number">1.2.</span> <span class="toc-text">位置与移动：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#复制剪切等："><span class="toc-number">2.</span> <span class="toc-text">复制剪切等：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#分屏："><span class="toc-number">2.1.</span> <span class="toc-text">分屏：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#可视模式：v-或-V-或ctrl-v"><span class="toc-number">2.2.</span> <span class="toc-text">可视模式：v 或 V 或ctrl+v</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#程序员："><span class="toc-number">2.3.</span> <span class="toc-text">程序员：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#修改配置文件："><span class="toc-number">3.</span> <span class="toc-text">修改配置文件：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#设置快捷键："><span class="toc-number">3.1.</span> <span class="toc-text">设置快捷键：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#operation与motion："><span class="toc-number">3.2.</span> <span class="toc-text">operation与motion：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#下载插件："><span class="toc-number">4.</span> <span class="toc-text">下载插件：</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        vim简单使用
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hexo</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2020-05-13T13:25:06.532Z" itemprop="datePublished">2020-05-13</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="vim用法："><a href="#vim用法：" class="headerlink" title="vim用法："></a>vim用法：</h1><h2 id="查找模式："><a href="#查找模式：" class="headerlink" title="查找模式："></a>查找模式：</h2><p>/string    向下查找    ?string    向上查找    #查找光标覆盖的单词</p>
+<p>替换：末行模式 r</p>
+<h2 id="位置与移动："><a href="#位置与移动：" class="headerlink" title="位置与移动："></a>位置与移动：</h2><p>G：文件末    gg：文件头    行首：^    行末：$</p>
+<p>e:每段string移动    </p>
+<p>ctrl+o 回到之前那个位置    ctrl+i回到之前回到的那个位置</p>
+<h1 id="复制剪切等："><a href="#复制剪切等：" class="headerlink" title="复制剪切等："></a>复制剪切等：</h1><p>复制： yy    nyy(n行复制)</p>
+<p>粘贴：p    P</p>
+<p>撤销：u    反撤销：ctrl + r</p>
+<p>缩进：&gt;&gt;向右 &lt;&lt;向左</p>
+<p>查找man文档：shift + k</p>
+<h2 id="分屏："><a href="#分屏：" class="headerlink" title="分屏："></a>分屏：</h2><p>屏幕分屏：vsp垂直分屏    sp水平分屏    sp/vsp + 文件</p>
+<p>分屏下的光标移动：ctrl +w +(hjkl) 上下左右移</p>
+<h2 id="可视模式：v-或-V-或ctrl-v"><a href="#可视模式：v-或-V-或ctrl-v" class="headerlink" title="可视模式：v 或 V 或ctrl+v"></a>可视模式：v 或 V 或ctrl+v</h2><p>可视块文本：ctrl+v</p>
+<p>可选中文本块，选中文本块，执行所有可以执行的操作。</p>
+<p><strong>应用</strong>：</p>
+<p> 1.在所有行前插入指定内容：进入可视块模式，G选到最后一行，shift+i进入插入模式，写入内容，esc以后，即可全部插入    </p>
+<p> 2.在选中的每行前加一样的string：选中，：进入末行模式，：normal 要添加的string normal A.png    A代表行末。</p>
+<h2 id="程序员："><a href="#程序员：" class="headerlink" title="程序员："></a>程序员：</h2><p>引入外部命令的结果：r !命令        例：r !ls</p>
+<h1 id="修改配置文件："><a href="#修改配置文件：" class="headerlink" title="修改配置文件："></a>修改配置文件：</h1><p>绪论：在家目录下新建一个文件夹.vim 进入新建一个vimrc的文件</p>
+<h2 id="设置快捷键："><a href="#设置快捷键：" class="headerlink" title="设置快捷键："></a>设置快捷键：</h2><p>noremap更改键位的命令</p>
+<p>map</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">回车的表示：&lt;CR&gt;</span><br><span class="line">不做反应：&lt;nop&gt;</span><br><span class="line">空格：&lt;LEADER&gt;</span><br><span class="line">map R :source $MYVIMRC&lt;CR&gt;   重新加载vimrc</span><br><span class="line">map &lt;LEADER&gt;fd &#x2F;\(\&lt;\w\+\&gt;\)\_s*\1	查找两个连续相同的字符</span><br><span class="line">map &lt;LEADER&gt;sc :set spell!&lt;CR&gt;	set spell打开拼写检查(只检查英文是否拼写正确)</span><br><span class="line">检查到有错误拼写，光标移到此处，z&#x3D; 可显示全部可能的拼写，数字选择</span><br><span class="line">打开拼写检查后，输入模式下，ctrl+x进入一个模式，输入s即可进入提示拼写</span><br><span class="line">map &lt;LEADER&gt;&lt;LEADER&gt; &lt;Esc&gt;&#x2F;&lt;++&gt;&lt;CR&gt;:nosearch&lt;CR&gt;c4i	两下空格变为先查找&lt;++&gt;，不高亮，删除四个单词，进入插入模式</span><br><span class="line"></span><br><span class="line">syntax	打开代码高亮</span><br><span class="line">set number 打开行号</span><br><span class="line">set relativenumber	打开行号(相对于当前行的行号)</span><br><span class="line">set设置的值，属性值前加no，表示不打开。例：set nonumber</span><br><span class="line">set cursorline	在当前行显示一条线。</span><br><span class="line">set showcmd	显示当前按的键</span><br><span class="line">set wildmenu	打开末行模式的菜单，输入tab键提示</span><br><span class="line">set hlsearch	匹配结果高亮返回</span><br><span class="line">set wrap	自动折行，即太长的行分成几行显示</span><br><span class="line">set mouse&#x3D;a		支持鼠标</span><br><span class="line">set incsearch	实时匹配结果高亮</span><br><span class="line">set ignorecase	匹配时忽略大小写</span><br><span class="line">set smartcase	匹配时智能大小写</span><br><span class="line">set foldmethod&#x3D;indent	折叠函数</span><br><span class="line">	zc折叠	zo打开折叠</span><br><span class="line">set scrolloff&#x3D;5	保证每页都有上下5行</span><br></pre></td></tr></table></figure>
+
+<h2 id="operation与motion："><a href="#operation与motion：" class="headerlink" title="operation与motion："></a>operation与motion：</h2><p>operation是一个动作，motion是一个意图</p>
+<p>比如：d是一个删除动作，-&gt;与&lt;-是意图，d + -&gt;就表示向右删一个空格</p>
+<p>​            d + d就表示删除这一行</p>
+<p>​            y表示复制，y + 3-&gt; 表示向右复制三个字符</p>
+<p>​            ci”    c-&gt;change i “删除“ ”内的内容 </p>
+<p>​            df:    d 删除    f for : 冒号    从当前位置删除到：位置</p>
+<p>​            f:        f found查找， ：冒号    查找本行的：</p>
+<h1 id="下载插件："><a href="#下载插件：" class="headerlink" title="下载插件："></a>下载插件：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">curl -fLo ~&#x2F;.vim&#x2F;autoload&#x2F;plug.vim --create-dirs \https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;junegunn&#x2F;vim-plug&#x2F;master&#x2F;plug.vim</span><br><span class="line">下载plug.vim</span><br><span class="line"></span><br><span class="line">call plug#begin(&#39;~&#x2F;.vim&#x2F;plugged&#39;)</span><br><span class="line">Plug &#39;github网址后除GitHub后面的路由&#39;</span><br><span class="line">call plug#end()</span><br><span class="line"></span><br><span class="line">在末行模式下执行：PlugInstall</span><br><span class="line">开始下载</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">YouCompleteMe	代码补全插件</span><br><span class="line">这个插件安装不能立即使用，需要下载，进入plugged目录，进入YouCompletMe目录</span><br><span class="line">sudo python install.py</span><br><span class="line">需要下载cmake和python2.7-dev</span><br></pre></td></tr></table></figure>
+
+<p>实例：</p>
+<p>​    当vim编辑文件，想要保存时，权限不够：</p>
+<ol>
+<li>w ~/Desktop/toilet.conf    保存到其他文件，再复制到此处</li>
+<li>w !sudo tee %    %表示当前文件 输入密码，即可保存</li>
+</ol>
+<p>打开文件：gf：go to file 进入光标所在的那个文件，ctrl+o就可返回上一个文件 </p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/gabithume" target="_blank" rel="noopener">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#vim用法："><span class="toc-number">1.</span> <span class="toc-text">vim用法：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#查找模式："><span class="toc-number">1.1.</span> <span class="toc-text">查找模式：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#位置与移动："><span class="toc-number">1.2.</span> <span class="toc-text">位置与移动：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#复制剪切等："><span class="toc-number">2.</span> <span class="toc-text">复制剪切等：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#分屏："><span class="toc-number">2.1.</span> <span class="toc-text">分屏：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#可视模式：v-或-V-或ctrl-v"><span class="toc-number">2.2.</span> <span class="toc-text">可视模式：v 或 V 或ctrl+v</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#程序员："><span class="toc-number">2.3.</span> <span class="toc-text">程序员：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#修改配置文件："><span class="toc-number">3.</span> <span class="toc-text">修改配置文件：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#设置快捷键："><span class="toc-number">3.1.</span> <span class="toc-text">设置快捷键：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#operation与motion："><span class="toc-number">3.2.</span> <span class="toc-text">operation与motion：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#下载插件："><span class="toc-number">4.</span> <span class="toc-text">下载插件：</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/05/13/vim%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/05/13/vim%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/&text=vim简单使用" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/05/13/vim%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/&title=vim简单使用" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/05/13/vim%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/&is_video=false&description=vim简单使用" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=vim简单使用&body=Check out this article: http://yoursite.com/2020/05/13/vim%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/05/13/vim%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/&title=vim简单使用" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/05/13/vim%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/&title=vim简单使用" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/05/13/vim%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/&title=vim简单使用" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/05/13/vim%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/&title=vim简单使用" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/05/13/vim%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/&name=vim简单使用&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/gabithume" target="_blank" rel="noopener">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

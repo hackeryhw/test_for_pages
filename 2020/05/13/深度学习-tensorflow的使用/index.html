@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="tensorflow基础：tensorflow执行期间会报错，修改报错等级： 12import osos.environ[&#39;TF_CPP_MIN_LOG_LEVEL&#39;] &#x3D; &#39;2&#39;  tensorflow各变量的内容：张量：tensor（常量、变量和占位符） operation：专门运算的操作节点    所有操作都是一个op 图：graph：整个程序的结构 会话：运行程序的图、、 计算图：是包含节">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深度学习-tensorflow的使用">
+<meta property="og:url" content="http://yoursite.com/2020/05/13/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-tensorflow%E7%9A%84%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="tensorflow基础：tensorflow执行期间会报错，修改报错等级： 12import osos.environ[&#39;TF_CPP_MIN_LOG_LEVEL&#39;] &#x3D; &#39;2&#39;  tensorflow各变量的内容：张量：tensor（常量、变量和占位符） operation：专门运算的操作节点    所有操作都是一个op 图：graph：整个程序的结构 会话：运行程序的图、、 计算图：是包含节">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://c.biancheng.net/uploads/allimg/190107/2-1Z10G32615351.gif">
+<meta property="og:image" content="http://c.biancheng.net/uploads/allimg/190107/2-1Z10G41112550.gif">
+<meta property="og:image" content="http://c.biancheng.net/uploads/allimg/190107/2-1Z10G41139128.gif">
+<meta property="og:image" content="http://c.biancheng.net/uploads/allimg/190107/2-1Z10G4115R07.gif">
+<meta property="og:image" content="http://c.biancheng.net/uploads/allimg/190107/2-1Z10G41221H7.gif">
+<meta property="og:image" content="http://c.biancheng.net/uploads/allimg/190107/2-1Z10G41242601.gif">
+<meta property="og:image" content="http://c.biancheng.net/uploads/allimg/190107/2-1Z10G414255I.gif">
+<meta property="og:image" content="c:/Users/杨浩伟/Desktop/寒假笔记/png/%7B30B7F61C-C25C-F492-3B3B-935C6DB72441%7D.png">
+<meta property="og:image" content="http://c.biancheng.net/uploads/allimg/190107/2-1Z10GGGB45.gif">
+<meta property="og:image" content="http://c.biancheng.net/uploads/allimg/190107/2-1Z10GH344M4.gif">
+<meta property="og:image" content="c:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200222114635313.png">
+<meta property="og:image" content="c:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200222113543764.png">
+<meta property="og:image" content="c:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%7BC9A53B97-5A89-A9F7-6BD0-562235DDE710%7D.png">
+<meta property="og:image" content="c:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200222095951687.png">
+<meta property="og:image" content="c:/Users/杨浩伟/Desktop/寒假笔记/png/image-20200222101008165.png">
+<meta property="og:image" content="c:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200222101326617.png">
+<meta property="og:image" content="c:/Users/杨浩伟/Desktop/寒假笔记/png/%7B876ABBE1-F8FA-F0BA-F0A9-4BA1B677B735%7D.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20181128162309759.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2x6X3BldGVy,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="c:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200222102942564.png">
+<meta property="og:image" content="c:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200222103020937.png">
+<meta property="og:image" content="c:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%7BB678EE25-E9E2-7933-D7E6-F41D4DFCE228%7D.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1226410/201809/1226410-20180910191025559-865156930.png">
+<meta property="og:image" content="c:/Users/杨浩伟/AppData/Roaming/Typora/typora-user-images/image-20200214111826081.png">
+<meta property="og:image" content="c:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200221225750949.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1226410/201809/1226410-20180910194605414-874059268.png">
+<meta property="og:image" content="c:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200221232418244.png">
+<meta property="og:image" content="c:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200221233011665.png">
+<meta property="og:image" content="c:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200223190354448.png">
+<meta property="og:image" content="c:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200228125531452.png">
+<meta property="og:image" content="c:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200228140941209.png">
+<meta property="og:image" content="c:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200228141030522.png">
+<meta property="og:image" content="c:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200228143312973.png">
+<meta property="og:image" content="c:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200228143538518.png">
+<meta property="og:image" content="c:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200228143939347.png">
+<meta property="og:image" content="c:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200228144123629.png">
+<meta property="og:image" content="c:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200228150215550.png">
+<meta property="og:image" content="c:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200229100101932.png">
+<meta property="og:image" content="c:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200229100302376.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2019031913144336.jpg#pic_center">
+<meta property="og:image" content="c:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200223190426910.png">
+<meta property="og:image" content="c:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200223140007784.png">
+<meta property="og:image" content="c:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200223140341549.png">
+<meta property="og:image" content="c:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200223120047300.png">
+<meta property="og:image" content="c:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200223125301710.png">
+<meta property="og:image" content="c:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200223122952170.png">
+<meta property="og:image" content="c:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200223123209233.png">
+<meta property="og:image" content="c:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200223123704533.png">
+<meta property="og:image" content="c:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200223124008297.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/729758/201807/729758-20180722122344255-429345489.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/729758/201807/729758-20180722113358463-2118289527.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/729758/201807/729758-20180722153943447-1207074806.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/729758/201807/729758-20180722154033845-696811220.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/729758/201807/729758-20180722154124519-237978613.png">
+<meta property="article:published_time" content="2020-05-13T13:28:36.650Z">
+<meta property="article:modified_time" content="2020-04-20T09:16:48.064Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://c.biancheng.net/uploads/allimg/190107/2-1Z10G32615351.gif">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>深度学习-tensorflow的使用</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/gabithume" target="_blank" rel="noopener">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2020/05/13/%E9%98%B6/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/05/13/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-tensorflow%E7%9A%84%E4%BD%BF%E7%94%A8/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/05/13/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-tensorflow%E7%9A%84%E4%BD%BF%E7%94%A8/&text=深度学习-tensorflow的使用" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/05/13/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-tensorflow%E7%9A%84%E4%BD%BF%E7%94%A8/&title=深度学习-tensorflow的使用" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/05/13/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-tensorflow%E7%9A%84%E4%BD%BF%E7%94%A8/&is_video=false&description=深度学习-tensorflow的使用" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=深度学习-tensorflow的使用&body=Check out this article: http://yoursite.com/2020/05/13/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-tensorflow%E7%9A%84%E4%BD%BF%E7%94%A8/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/05/13/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-tensorflow%E7%9A%84%E4%BD%BF%E7%94%A8/&title=深度学习-tensorflow的使用" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/05/13/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-tensorflow%E7%9A%84%E4%BD%BF%E7%94%A8/&title=深度学习-tensorflow的使用" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/05/13/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-tensorflow%E7%9A%84%E4%BD%BF%E7%94%A8/&title=深度学习-tensorflow的使用" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/05/13/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-tensorflow%E7%9A%84%E4%BD%BF%E7%94%A8/&title=深度学习-tensorflow的使用" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/05/13/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-tensorflow%E7%9A%84%E4%BD%BF%E7%94%A8/&name=深度学习-tensorflow的使用&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#tensorflow基础："><span class="toc-number">1.</span> <span class="toc-text">tensorflow基础：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#tensorflow各变量的内容："><span class="toc-number">1.1.</span> <span class="toc-text">tensorflow各变量的内容：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#计算图的构建"><span class="toc-number">1.1.1.</span> <span class="toc-text">计算图的构建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GPU运算"><span class="toc-number">1.1.2.</span> <span class="toc-text">#GPU运算</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#图："><span class="toc-number">1.2.</span> <span class="toc-text">图：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#op操作"><span class="toc-number">1.3.</span> <span class="toc-text">op操作:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#前后端："><span class="toc-number">1.4.</span> <span class="toc-text">前后端：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#会话："><span class="toc-number">1.5.</span> <span class="toc-text">会话：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#张量："><span class="toc-number">1.6.</span> <span class="toc-text">张量：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TensorFlow-常量"><span class="toc-number">1.6.1.</span> <span class="toc-text">TensorFlow 常量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TensorFlow-变量"><span class="toc-number">1.6.2.</span> <span class="toc-text">TensorFlow 变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TensorFlow-占位符"><span class="toc-number">1.6.3.</span> <span class="toc-text">TensorFlow 占位符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#张量的动态形状与静态形状："><span class="toc-number">1.6.4.</span> <span class="toc-text">张量的动态形状与静态形状：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#扩展阅读："><span class="toc-number">1.6.5.</span> <span class="toc-text">扩展阅读：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#类型转化："><span class="toc-number">1.6.6.</span> <span class="toc-text">类型转化：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#切片与扩展："><span class="toc-number">1.6.7.</span> <span class="toc-text">切片与扩展：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tf-split"><span class="toc-number">1.6.8.</span> <span class="toc-text">tf.split:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tf-tranfpose"><span class="toc-number">1.6.9.</span> <span class="toc-text">tf.tranfpose:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#矩阵操作："><span class="toc-number">1.7.</span> <span class="toc-text">矩阵操作：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#平方："><span class="toc-number">1.7.1.</span> <span class="toc-text">平方：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#均值"><span class="toc-number">1.7.2.</span> <span class="toc-text">均值:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#乘法："><span class="toc-number">1.7.3.</span> <span class="toc-text">乘法：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#除法："><span class="toc-number">1.7.4.</span> <span class="toc-text">除法：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#变量作用域："><span class="toc-number">1.7.5.</span> <span class="toc-text">变量作用域：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#模型的保存与加载："><span class="toc-number">1.8.</span> <span class="toc-text">模型的保存与加载：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#命令行参数："><span class="toc-number">1.9.</span> <span class="toc-text">命令行参数：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tensorflow数据读取："><span class="toc-number">1.10.</span> <span class="toc-text">tensorflow数据读取：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#tensorflow队列："><span class="toc-number">1.10.1.</span> <span class="toc-text">tensorflow队列：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#tf-FIFOQueue"><span class="toc-number">1.10.1.1.</span> <span class="toc-text">tf.FIFOQueue:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ft-RandomShuffleQueue"><span class="toc-number">1.10.1.2.</span> <span class="toc-text">ft.RandomShuffleQueue:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#队列管理器："><span class="toc-number">1.10.1.3.</span> <span class="toc-text">队列管理器：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#线程协调器："><span class="toc-number">1.10.1.4.</span> <span class="toc-text">线程协调器：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件读取："><span class="toc-number">1.11.</span> <span class="toc-text">文件读取：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#文件队列的构造："><span class="toc-number">1.11.1.</span> <span class="toc-text">文件队列的构造：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件阅读器："><span class="toc-number">1.11.2.</span> <span class="toc-text">文件阅读器：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件阅读解码："><span class="toc-number">1.11.3.</span> <span class="toc-text">文件阅读解码：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#开启线程操作："><span class="toc-number">1.11.4.</span> <span class="toc-text">开启线程操作：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#管道读端批处理："><span class="toc-number">1.11.5.</span> <span class="toc-text">管道读端批处理：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#图片的读取："><span class="toc-number">1.12.</span> <span class="toc-text">图片的读取：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#图片基本操作："><span class="toc-number">1.12.1.</span> <span class="toc-text">图片基本操作：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#图片读取："><span class="toc-number">1.12.2.</span> <span class="toc-text">图片读取：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#图片储存与计算类型："><span class="toc-number">1.12.3.</span> <span class="toc-text">图片储存与计算类型：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二进制版本："><span class="toc-number">1.12.4.</span> <span class="toc-text">二进制版本：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TFRecords分析提取"><span class="toc-number">1.13.</span> <span class="toc-text">TFRecords分析提取</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TFRecords的存储："><span class="toc-number">1.13.1.</span> <span class="toc-text">TFRecords的存储：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TFrecords的读取："><span class="toc-number">1.13.2.</span> <span class="toc-text">TFrecords的读取：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tensorflow与深度学习"><span class="toc-number">1.14.</span> <span class="toc-text">tensorflow与深度学习</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通过feed-dict传递数据"><span class="toc-number">1.15.</span> <span class="toc-text">通过feed_dict传递数据</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#神经网络的过拟合解决问题："><span class="toc-number">2.</span> <span class="toc-text">神经网络的过拟合解决问题：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#优化："><span class="toc-number">3.</span> <span class="toc-text">优化：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据预处理："><span class="toc-number">4.</span> <span class="toc-text">数据预处理：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#深度学习："><span class="toc-number">5.</span> <span class="toc-text">深度学习：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#SVM损失函数："><span class="toc-number">5.1.</span> <span class="toc-text">SVM损失函数：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于SVM的正则化惩罚："><span class="toc-number">5.2.</span> <span class="toc-text">关于SVM的正则化惩罚：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tensorflow三个模块："><span class="toc-number">5.3.</span> <span class="toc-text">tensorflow三个模块：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#softMax回归："><span class="toc-number">5.4.</span> <span class="toc-text">softMax回归：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SVM与softMax的比较："><span class="toc-number">5.5.</span> <span class="toc-text">SVM与softMax的比较：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#损失函数："><span class="toc-number">5.6.</span> <span class="toc-text">损失函数：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#交叉熵损失函数："><span class="toc-number">5.6.1.</span> <span class="toc-text">交叉熵损失函数：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#全连接："><span class="toc-number">5.7.</span> <span class="toc-text">全连接：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#特征加权："><span class="toc-number">5.7.1.</span> <span class="toc-text">特征加权：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#列表平均值计算："><span class="toc-number">5.8.</span> <span class="toc-text">列表平均值计算：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#梯度下降API"><span class="toc-number">5.9.</span> <span class="toc-text">梯度下降API</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#one-hot"><span class="toc-number">5.10.</span> <span class="toc-text">one-hot:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#准确率预测："><span class="toc-number">5.11.</span> <span class="toc-text">准确率预测：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#全连接之mnist训练："><span class="toc-number">5.12.</span> <span class="toc-text">全连接之mnist训练：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#全神经网络的缺点："><span class="toc-number">5.13.</span> <span class="toc-text">全神经网络的缺点：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#梯度爆炸与梯度消失："><span class="toc-number">5.14.</span> <span class="toc-text">梯度爆炸与梯度消失：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#卷积神经网络CNN："><span class="toc-number">5.15.</span> <span class="toc-text">卷积神经网络CNN：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#结构："><span class="toc-number">5.15.1.</span> <span class="toc-text">结构：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#组成："><span class="toc-number">5.15.2.</span> <span class="toc-text">组成：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#卷积层计算过程："><span class="toc-number">5.15.3.</span> <span class="toc-text">卷积层计算过程：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参数共享："><span class="toc-number">5.15.4.</span> <span class="toc-text">参数共享：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#卷积层API："><span class="toc-number">5.15.5.</span> <span class="toc-text">卷积层API：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#新激活函数："><span class="toc-number">5.15.6.</span> <span class="toc-text">新激活函数：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#池化层："><span class="toc-number">5.15.7.</span> <span class="toc-text">池化层：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#全连接层："><span class="toc-number">5.15.8.</span> <span class="toc-text">全连接层：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#前向传播与反向传播"><span class="toc-number">5.15.9.</span> <span class="toc-text">前向传播与反向传播:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#卷积神经网络实现mnist训练："><span class="toc-number">5.15.10.</span> <span class="toc-text">卷积神经网络实现mnist训练：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RNN网络："><span class="toc-number">5.16.</span> <span class="toc-text">RNN网络：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#LSTM模型："><span class="toc-number">5.16.1.</span> <span class="toc-text">LSTM模型：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tensorflow-API"><span class="toc-number">5.16.2.</span> <span class="toc-text">tensorflow API:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#损失函数：-1"><span class="toc-number">5.16.3.</span> <span class="toc-text">损失函数：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RNN处理mnist数据集："><span class="toc-number">5.16.4.</span> <span class="toc-text">RNN处理mnist数据集：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#神经网络设计的技巧"><span class="toc-number">6.</span> <span class="toc-text">神经网络设计的技巧:</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-感受野："><span class="toc-number">6.1.</span> <span class="toc-text">1.感受野：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-参数多少："><span class="toc-number">6.2.</span> <span class="toc-text">2.参数多少：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-池化层："><span class="toc-number">6.3.</span> <span class="toc-text">3.池化层：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据增强："><span class="toc-number">7.</span> <span class="toc-text">数据增强：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-水平翻转"><span class="toc-number">7.1.</span> <span class="toc-text">1.水平翻转:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-随机切割："><span class="toc-number">7.2.</span> <span class="toc-text">2.随机切割：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-平移："><span class="toc-number">7.2.1.</span> <span class="toc-text">3.平移：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#物体检测："><span class="toc-number">8.</span> <span class="toc-text">物体检测：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#经典网络架构："><span class="toc-number">8.1.</span> <span class="toc-text">经典网络架构：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#alexnet："><span class="toc-number">8.1.1.</span> <span class="toc-text">alexnet：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VGGNET："><span class="toc-number">8.1.2.</span> <span class="toc-text">VGGNET：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RESNET：残差网络"><span class="toc-number">8.1.3.</span> <span class="toc-text">RESNET：残差网络</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#任务分类："><span class="toc-number">8.2.</span> <span class="toc-text">任务分类：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#物体检测算法"><span class="toc-number">8.3.</span> <span class="toc-text">物体检测算法:</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#R-CNN"><span class="toc-number">8.3.1.</span> <span class="toc-text">R-CNN:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Fast-R-CNN"><span class="toc-number">8.3.2.</span> <span class="toc-text">Fast R-CNN:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Faster-R-CNN"><span class="toc-number">8.3.3.</span> <span class="toc-text">Faster R-CNN:</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#过拟合"><span class="toc-number">9.</span> <span class="toc-text">过拟合:</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#RBF（径向基）神经网络："><span class="toc-number">10.</span> <span class="toc-text">RBF（径向基）神经网络：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么高斯核函数就是映射到高维空间"><span class="toc-number">10.1.</span> <span class="toc-text">为什么高斯核函数就是映射到高维空间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#训练步骤："><span class="toc-number">10.2.</span> <span class="toc-text">训练步骤：</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        深度学习-tensorflow的使用
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hexo</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2020-05-13T13:28:36.650Z" itemprop="datePublished">2020-05-13</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="tensorflow基础："><a href="#tensorflow基础：" class="headerlink" title="tensorflow基础："></a>tensorflow基础：</h1><p>tensorflow执行期间会报错，修改报错等级：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line">os.environ[<span class="string">'TF_CPP_MIN_LOG_LEVEL'</span>] = <span class="string">'2'</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="tensorflow各变量的内容："><a href="#tensorflow各变量的内容：" class="headerlink" title="tensorflow各变量的内容："></a>tensorflow各变量的内容：</h2><p><strong>张量</strong>：tensor（常量、变量和占位符）</p>
+<p><strong>operation</strong>：专门运算的操作节点    所有操作都是一个op</p>
+<p><strong>图</strong>：graph：整个程序的结构</p>
+<p><strong>会话</strong>：运行程序的图、、</p>
+<p><strong>计算图</strong>：是包含节点和边的网络。定义所有要使用的数据，也就是张量（tensor）对象（常量、变量和占位符），同时定义要执行的所有计算，即运算操作对象。</p>
+<p>每个节点可以有零个或多个输入，但只有一个输出。网络中的节点表示对象（张量和运算操作），边表示运算操作之间流动的张量。计算图定义神经网络的蓝图，但其中的张量还没有相关的数值。</p>
+<p><strong>计算图的执行</strong>：使用会话对象来实现计算图的执行。会话对象封装了评估张量和操作对象的环境。这里真正实现了运算操作并将信息从网络的一层传递到另外一层。不同张量对象的值仅在会话对象中被初始化、访问和保存。在此之前张量对象只被抽象定义，在会话中才被赋予实际的意义。</p>
+<p><strong>一个简单的例子</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">方式<span class="number">1</span>：</span><br><span class="line">a = tf.constant(<span class="number">12</span>)</span><br><span class="line">b = tf.constant(<span class="number">12</span>)</span><br><span class="line">sum1 = tf.add(a,b)</span><br><span class="line"></span><br><span class="line">方式<span class="number">2</span>：</span><br><span class="line">a = tf.constant([<span class="number">1</span>,<span class="number">2</span>])  <span class="comment">#定义常量</span></span><br><span class="line">b = tf.constant([<span class="number">3</span>,<span class="number">4</span>])</span><br><span class="line">result = a + b            <span class="comment">#定义关系</span></span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">	print(sess.run(result))</span><br><span class="line">    </span><br><span class="line">方式<span class="number">3</span>：</span><br><span class="line">a = tf.constant([<span class="number">1</span>,<span class="number">2</span>])  <span class="comment">#定义常量</span></span><br><span class="line">b = tf.constant([<span class="number">3</span>,<span class="number">4</span>])</span><br><span class="line">result = a + b            <span class="comment">#定义关系</span></span><br><span class="line">sess = tf.Session()</span><br><span class="line">print(sess.run(result))</span><br><span class="line">sess.close()</span><br><span class="line"></span><br><span class="line">每个会话都需要使用 close() 来明确关闭，而 <span class="keyword">with</span> 格式可以在运行结束时隐式关闭会话。</span><br></pre></td></tr></table></figure>
+
+<h3 id="计算图的构建"><a href="#计算图的构建" class="headerlink" title="计算图的构建"></a>计算图的构建</h3><p>非常简单。添加变量和操作，并按照逐层建立神经网络的顺序传递它们（让张量流动）</p>
+<h3 id="GPU运算"><a href="#GPU运算" class="headerlink" title="#GPU运算"></a>#GPU运算</h3><p>TensorFlow 还允许使用 with tf.device() 命令来使用具有不同计算图形对象的特定设备</p>
+<h2 id="图："><a href="#图：" class="headerlink" title="图："></a>图：</h2><p>图默认已经注册，一组表示operation计算单位的对象和tf.Teansor表示操作之间流动的数据单元的对象</p>
+<p>图相当于一段内存空间</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">获取调用：</span><br><span class="line">tf.get_default_graph()</span><br><span class="line">op,sess,tensor的graph属性</span><br></pre></td></tr></table></figure>
+
+<p>图的创建：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">tf.Graph()</span><br><span class="line">使用新创建的图：</span><br><span class="line">g = tf.Graph()</span><br><span class="line"><span class="keyword">with</span> g.as_default():</span><br><span class="line">    a=tf.constant(<span class="number">1.0</span>)</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+
+
+
+<p>tf.run(fetches,feed_dict=None,options=None,run_metadata)</p>
+<p>运算结果的值在 fetches 中提取；在示例中，提取的张量为 v_add。run 方法将导致在每次执行该计算图的时候，都将对与 <strong>v_add 相关的张量和操作</strong>进行赋值。如果抽取的不是 v_add 而是 v_1，那么最后给出的是向量 v_1 的运行结果：</p>
+<p>{1,2,3,4}</p>
+<p>此外，一次可以提取一个或多个张量或操作对象，例如，如果结果抽取的是 [v_1…v_add]，那么输出如下：</p>
+<p>{array([1,2,3,4]),array([2,1,5,3]),array([3,3,8,7])}</p>
+<p>在同一段代码中，可以有多个会话对象。</p>
+<p><strong>扩展阅读：</strong></p>
+<p>如果你正在使用 Jupyter Notebook 或者 Python shell 进行编程，使用 tf.InteractiveSession 将比 tf.Session 更方便。InteractiveSession 使自己成为默认会话，因此你可以使用 eval() 直接调用运行张量对象而不用显式调用会话。下面给出一个例子：</p>
+<p><img src="http://c.biancheng.net/uploads/allimg/190107/2-1Z10G32615351.gif" alt="img"></p>
+<h2 id="op操作"><a href="#op操作" class="headerlink" title="op操作:"></a>op操作:</h2><p>只要使用tensorflow的api定义的函数都是op</p>
+<h2 id="前后端："><a href="#前后端：" class="headerlink" title="前后端："></a>前后端：</h2><p>tensorflow前端：定义程序的图的机构</p>
+<p>tensorflow后端：运算图的结构</p>
+<h2 id="会话："><a href="#会话：" class="headerlink" title="会话："></a>会话：</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">tf.Session()</span><br><span class="line">运行tensorflow操作图的类，使用默认注册的图</span><br><span class="line"></span><br><span class="line">会话资源：</span><br><span class="line">会话可能拥有多种资源，如tf.Variable,tf.QueueBase和tr.ReaderBase，会话结束后需要进行资源释放</span><br><span class="line"></span><br><span class="line">config = tf.ConfigProto(log_device_placement=<span class="literal">True</span>)</span><br><span class="line"><span class="keyword">with</span> tf.Session(config=config) <span class="keyword">as</span> sess:</span><br><span class="line">    .....</span><br><span class="line"></span><br><span class="line">只要有会话的上下文环境，就可以方便的使用eval()</span><br><span class="line"></span><br><span class="line">会话的run方法：</span><br><span class="line">run(fetches,feed_dict=<span class="literal">None</span>,graph=<span class="literal">None</span>)	运行op和计算tensor</span><br><span class="line">feed_dict:允许调用者覆盖图中指定张量的值，提供placeholder使用。</span><br><span class="line">返回值异常：</span><br><span class="line">	runtime:session处于无效session</span><br><span class="line">    TypeError:fetches或fetch_dict键是不合适的类型</span><br><span class="line">    ValueError:fetches或fetch_dict键无效或引用tensor不存在</span><br></pre></td></tr></table></figure>
+
+<h2 id="张量："><a href="#张量：" class="headerlink" title="张量："></a>张量：</h2><p>张量，tensorflow基本的数据格式</p>
+<p>一个类型化的N维度数组</p>
+<p>三部分：名称，形状，数据类型</p>
+<p>TensorFlow 支持以下三种类型的张量：</p>
+<ol>
+<li><p>常量：常量是其值不能改变的张量。</p>
+</li>
+<li><p>变量：当一个量在会话中的值需要更新时，使用变量来表示。</p>
+<p>变量在使用前需要被显示初始化。另外需要注意的是，常量存储在计算图的定义中，每次加载图时都会加载相关变量</p>
+</li>
+<li><p>占位符：用于将值输入 TensorFlow 图中。它们可以和 feed_dict 一起使用来输入数据。在训练神经网络时，它们通常用于提供新的训练样本。占位符不包含任何数据，因此不需要初始化它们。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">张量属性：</span><br><span class="line">	graph:张量所属的默认图</span><br><span class="line">    op：张量的名称</span><br><span class="line">    name：张量的字符串描述</span><br><span class="line">    shape：张量形状</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="TensorFlow-常量"><a href="#TensorFlow-常量" class="headerlink" title="TensorFlow 常量"></a>TensorFlow 常量</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>声明一个标量常量：</span><br><span class="line">t_1 = tf.constant(<span class="number">4</span>)</span><br><span class="line"></span><br><span class="line"><span class="number">2.</span>一个形如 [<span class="number">1</span>，<span class="number">3</span>] 的常量向量可以用如下代码声明：</span><br><span class="line">t_2 = tf.constant([<span class="number">4</span>,<span class="number">3</span>,<span class="number">2</span>])</span><br><span class="line"></span><br><span class="line"><span class="number">3.</span>要创建一个所有元素为零的张量，可以使用 tf.zeros() 函数。这个语句可以创建一个形如 [M，N] 的零元素矩阵，数据类型（dtype）可以是 int32、float32 等：</span><br><span class="line">tf.zeros([M,N],tf.dtype)</span><br><span class="line"></span><br><span class="line">例如：</span><br><span class="line">zero_t = tf.zeros([<span class="number">2</span>,<span class="number">3</span>],tf.int32)</span><br><span class="line"><span class="comment"># Results in an 2x3 array of zeros:[[0 0 0],[0 0 0]]</span></span><br><span class="line"></span><br><span class="line"><span class="number">4.</span>还可以创建与现有 Numpy 数组或张量常量具有相同形状的张量常量，如下所示：</span><br><span class="line">tf.zeros_like(t_1)</span><br><span class="line">tf.ones_like(t_2)</span><br><span class="line"></span><br><span class="line"><span class="number">5.</span>创建一个所有元素都设为 <span class="number">1</span> 的张量。下面的语句即创建一个形如 [M，N]、元素均为 <span class="number">1</span> 的矩阵：</span><br><span class="line">tf.ones([M,N],tf,dtype)</span><br><span class="line"></span><br><span class="line">例如：</span><br><span class="line">ones_t = tf.ones([<span class="number">2</span>,<span class="number">3</span>],tf.int32)</span><br><span class="line"><span class="comment"># Results in an 2x3 array of ones:[[1 1 1],[1 1 1]]</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">更进一步，还有以下语句：</span><br><span class="line"><span class="number">6.</span>在一定范围内生成一个从初值到终值等差排布的序列：</span><br><span class="line">tf.linspace(start,stop,num)</span><br><span class="line"></span><br><span class="line">相应的值为 (stop-start)/(num<span class="number">-1</span>)。例如：</span><br><span class="line">range_t = tf.linspace(<span class="number">2.0</span>,<span class="number">5.0</span>,<span class="number">5</span>)</span><br><span class="line"><span class="comment">#We get:[2. 2.75 3.5 4.25 5.]</span></span><br><span class="line"></span><br><span class="line"><span class="number">7.</span>从开始（默认值=<span class="number">0</span>）生成一个数字序列，增量为 delta（默认值=<span class="number">1</span>），直到终值（但不包括终值）：</span><br><span class="line">tf.range(start,limit,delta)</span><br><span class="line"></span><br><span class="line">下面给出实例：</span><br><span class="line">range_t = tf.range(<span class="number">10</span>)</span><br><span class="line"><span class="comment">#Result:[0 1 2 3 4 5 6 7 8 9]</span></span><br><span class="line"></span><br><span class="line">TensorFlow 允许创建具有不同分布的随机张量：</span><br><span class="line">使用以下语句创建一个具有一定均值（默认值=<span class="number">0.0</span>）和标准差（默认值=<span class="number">1.0</span>）、形状为 [M，N] 的正态分布随机数组：</span><br><span class="line">t_random = tf.random_normal([<span class="number">2</span>,<span class="number">3</span>],mean=<span class="number">2.0</span>,stddev=<span class="number">4</span>,seed=<span class="number">12</span>)</span><br><span class="line">创建一个具有一定均值（默认值=<span class="number">0.0</span>）和标准差（默认值=<span class="number">1.0</span>）、形状为 [M，N] 的截尾正态分布随机数组：</span><br><span class="line">t_random = tf.truncated_normal([<span class="number">1</span>,<span class="number">5</span>],stddev=<span class="number">2</span>,seed=<span class="number">12</span>)</span><br><span class="line">要在种子的 [minval（default=<span class="number">0</span>），maxval] 范围内创建形状为 [M，N] 的给定伽马分布随机数组，请执行如下语句：</span><br><span class="line">t_random = tf.random_uniform([<span class="number">2</span>,<span class="number">3</span>],maxcal=<span class="number">4</span>,seed=<span class="number">12</span>)</span><br><span class="line">要将给定的张量随机裁剪为指定的大小，使用以下语句：</span><br><span class="line">tf.random_crop(t_random,[<span class="number">2</span>,<span class="number">5</span>],seed=<span class="number">12</span>)</span><br><span class="line">这里，t_random 是一个已经定义好的张量。这将导致随机从张量 t_random 中裁剪出一个大小为 [<span class="number">2</span>，<span class="number">5</span>] 的张量。</span><br><span class="line"></span><br><span class="line">很多时候需要以随机的顺序来呈现训练样本，可以使用 tf.random_shuffle() 来沿着它的第一维随机排列张量。</span><br><span class="line">例：如果 t_random 是想要重新排序的张量，使用下面的代码：</span><br><span class="line">tf.random_shuffle(t_random)</span><br><span class="line"></span><br><span class="line">随机生成的张量受初始种子值的影响。要在多次运行或会话中获得相同的随机数，应该将种子设置为一个常数值。当使用大量的随机张量时，可以使用 tf.set_random_seed() 来为所有随机产生的张量设置种子。以下命令将所有会话的随机张量的种子设置为 <span class="number">54</span>：</span><br><span class="line">tf.set_random_seed(<span class="number">54</span>)</span><br><span class="line"></span><br><span class="line">TIP：种子只能有整数值。</span><br></pre></td></tr></table></figure>
+
+<h3 id="TensorFlow-变量"><a href="#TensorFlow-变量" class="headerlink" title="TensorFlow 变量"></a>TensorFlow 变量</h3><p>也是一种op，是一种特殊张量，能够进行持久化保存，默认被训练</p>
+<p>通过使用变量类来创建。变量的定义还包括应该初始化的常量/随机值。</p>
+<ol>
+<li>例：下面的代码中创建了两个不同的张量变量 t_a 和 t_b。两者将被初始化为形状为 [50，50] 的随机均匀分布，最小值=0，最大值=10：</li>
+</ol>
+<img src="http://c.biancheng.net/uploads/allimg/190107/2-1Z10G41112550.gif" alt="img" style="zoom: 80%;" />
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">注意：变量通常在神经网络中表示权重和偏置。</span><br></pre></td></tr></table></figure>
+
+<p>例：</p>
+<p>定义了两个变量的权重和偏置。权重变量使用正态分布随机初始化，均值为 0，标准差为 2，权重大小为 100×100。偏置由 100 个元素组成，每个元素初始化为 0。                                                                                         在这里也使用了可选参数名以给计算图中定义的变量命名：</p>
+<ol>
+<li>利用一些常量来初始化变量(利用tensorflow常量生成变量)：</li>
+</ol>
+<p><img src="http://c.biancheng.net/uploads/allimg/190107/2-1Z10G41139128.gif" alt="img"></p>
+<ol start="2">
+<li>也可以指定一个变量来初始化另一个变量。下面的语句将利用前面定义的权重来初始化 weight2：</li>
+</ol>
+<p><img src="http://c.biancheng.net/uploads/allimg/190107/2-1Z10G4115R07.gif" alt="img"></p>
+<p>变量的定义将指定<strong>变量</strong>如何被<strong>初始化</strong>，但是必须显式初始化所有的声明变量。在计算图的定义中通过声明初始化操作对象来实现：</p>
+<img src="http://c.biancheng.net/uploads/allimg/190107/2-1Z10G41221H7.gif" alt="img" style="zoom:80%;" />
+
+<p>每个变量也可以在运行图中单独使用 tf.Variable.initializer 来初始化：</p>
+<img src="http://c.biancheng.net/uploads/allimg/190107/2-1Z10G41242601.gif" alt="img" style="zoom:80%;" />
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tf.Variable(...)	创建变量</span><br><span class="line">eval(session=<span class="literal">None</span>)	计算并返回此变量的值</span><br><span class="line">assign(value)	为变量返回一个新值，返回新值</span><br></pre></td></tr></table></figure>
+
+<h3 id="TensorFlow-占位符"><a href="#TensorFlow-占位符" class="headerlink" title="TensorFlow 占位符"></a>TensorFlow 占位符</h3><p>介绍完常量和变量之后，我们来讲解最重要的元素——占位符，它们用于将数据提供给计算图。可以使用以下方法定义一个占位符：</p>
+<p>tf.placeholder(dtype,shape=None,name=None)</p>
+<p>dtype 定占位符的数据类型，并且必须在声明占位符时指定。在这里，为 x 定义一个占位符并计算 y=2*x，使用 feed_dict 输入一个随机的 4×5 矩阵：</p>
+<img src="http://c.biancheng.net/uploads/allimg/190107/2-1Z10G414255I.gif" alt="img" style="zoom:80%;" />
+
+<h3 id="张量的动态形状与静态形状："><a href="#张量的动态形状与静态形状：" class="headerlink" title="张量的动态形状与静态形状："></a>张量的动态形状与静态形状：</h3><p><strong>静态形状</strong>：创建一个张量，初始化形状</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">tf.Tensor.get_shape:获得静态形状</span><br><span class="line">tf.Tensor.set_shape：设置静态形状</span><br><span class="line"></span><br><span class="line">例：</span><br><span class="line">plt = tf.placeholder(tf.float32,[<span class="literal">None</span>,<span class="number">2</span>])</span><br><span class="line">plt.set_shape([<span class="number">3</span>,<span class="number">2</span>])</span><br><span class="line">plt.set_shape([<span class="number">4</span>,<span class="number">2</span>])	<span class="comment">#报错：不能对静态张量重复设置两次</span></span><br><span class="line"></span><br><span class="line">注意：</span><br><span class="line">静态转换时，不能跨阶数转化</span><br><span class="line">不能对静态张量重复设置两次</span><br></pre></td></tr></table></figure>
+
+<p><strong>动态形状</strong>：原始张量在执行过程中的一种形状</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tf.reshape:创建一个具有不同动态形状的新张量</span><br><span class="line">    </span><br><span class="line">例：</span><br><span class="line">plt_reshape = tf.reshape(plt,[<span class="number">3</span>,<span class="number">3</span>])</span><br></pre></td></tr></table></figure>
+
+<h3 id="扩展阅读："><a href="#扩展阅读：" class="headerlink" title="扩展阅读："></a>扩展阅读：</h3><p>TensorFlow 被设计成与 Numpy 配合运行，因此所有的 TensorFlow 数据类型都是基于 Numpy 的。使用 tf.convert_to_tensor() 可以将给定的值转换为张量类型，并将其与 TensorFlow 函数和运算符一起使用。该函数接受 Numpy 数组、Python 列表和 Python 标量，并允许与张量对象互操作。</p>
+<p>与 Python/Numpy 序列不同，TensorFlow 序列不可迭代。试试下面的代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> tf.range(<span class="number">10</span>)</span><br><span class="line">你会得到一个错误提示：</span><br><span class="line">typeError(<span class="string">"'Tensor'object id not iterable."</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="类型转化："><a href="#类型转化：" class="headerlink" title="类型转化："></a>类型转化：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tf.cast(x,dtype,name=<span class="literal">None</span>)</span><br><span class="line">tf.string_to_number(string_tensor,out_type=<span class="literal">None</span>,name=<span class="literal">None</span>)</span><br><span class="line">tf.to_double(x,name=<span class="string">"ToDouble"</span>)</span><br><span class="line">tf.to_dtype(泛指)(x,name=<span class="string">''</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="切片与扩展："><a href="#切片与扩展：" class="headerlink" title="切片与扩展："></a>切片与扩展：</h3><p><strong>tf.concat:</strong></p>
+<p>tf.concat的作用主要是将向量按指定维连起来，其余维度不变；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">t1 &#x3D; [[1, 2, 3], [4, 5, 6]]</span><br><span class="line">t2 &#x3D; [[7, 8, 9], [10, 11, 12]]</span><br><span class="line">#按照第0维连接</span><br><span class="line">tf.concat( [t1, t2]，0)</span><br><span class="line">&#x3D;&#x3D;&gt; [[1, 2, 3], [4, 5, 6], [7, 8, 9], [10, 11, 12]]</span><br><span class="line">#按照第1维连接</span><br><span class="line">tf.concat([t1, t2]，1) </span><br><span class="line">&#x3D;&#x3D;&gt; [[1, 2, 3, 7, 8, 9], [4, 5, 6, 10, 11, 12]]</span><br></pre></td></tr></table></figure>
+
+<h3 id="tf-split"><a href="#tf-split" class="headerlink" title="tf.split:"></a>tf.split:</h3><p>tf.split(dimension, num_split, input)：dimension的意思就是输入张量的哪一个维度，如果是0就表示对第0维度进行切割。num_split就是切割的数量，如果是2就表示输入张量被切成2份，每一份是一个列表。</p>
+<h3 id="tf-tranfpose"><a href="#tf-tranfpose" class="headerlink" title="tf.tranfpose:"></a>tf.tranfpose:</h3><p>tf.transpose(a, perm = None, name = ‘transpose’)</p>
+<p>将a进行转置，并且根据perm参数重新排列输出维度。这是对数据的维度的进行操作的形式。</p>
+<h2 id="矩阵操作："><a href="#矩阵操作：" class="headerlink" title="矩阵操作："></a>矩阵操作：</h2><h3 id="平方："><a href="#平方：" class="headerlink" title="平方："></a>平方：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.square(error)</span><br></pre></td></tr></table></figure>
+
+<h3 id="均值"><a href="#均值" class="headerlink" title="均值:"></a>均值:</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.reduce_mean(error)</span><br></pre></td></tr></table></figure>
+
+<h3 id="乘法："><a href="#乘法：" class="headerlink" title="乘法："></a>乘法：</h3><p>包括矩阵相乘，矩阵按元素相乘，乘系数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tf.matmul(a,b)	<span class="comment">#两个矩阵必须是相同类型.</span></span><br><span class="line">a*b	<span class="comment">#按元素相乘</span></span><br><span class="line">a = scalar_mul(常数,b)	<span class="comment">#乘系数</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="除法："><a href="#除法：" class="headerlink" title="除法："></a>除法：</h3><p>包括矩阵按元素除，除系数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.div(a,b)	<span class="comment">#按元素相除	返回的张量的类型与第一个参数类型一致。</span></span><br></pre></td></tr></table></figure>
+
+<p>解读：</p>
+<ol>
+<li><p>所有加法、减、除、乘（按元素相乘）、取余等矩阵的算术运算都要求两个张量矩阵是相同的数据类型，否则就会产生错误。可以使用 tf.cast() 将张量从一种数据类型转换为另一种数据类型。</p>
+</li>
+<li><pre><code class="python">tf.eye( size,dtype=<span class="literal">None</span>,name=<span class="literal">None</span>)
+实例化一个单位矩阵并返回它。
+参数：
+- 大小：整数，行数/列数。
+- dtype：字符串，返回的Keras变量的数据类型。
+- 名称：字符串
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">3. 所有加法、减、除、乘（按元素相乘）、取余等矩阵的算术运算都要求两个张量矩阵是相同的数据类型</span><br><span class="line"></span><br><span class="line">## 数据可视化：</span><br><span class="line"></span><br><span class="line">name别名就是可视化数据时显示的标签</span><br><span class="line"></span><br><span class="line">### 增加变量显示：</span><br><span class="line"></span><br><span class="line">目的：观察模型的参数，损失值等变量值的变化</span><br><span class="line"></span><br><span class="line">1. 收集变量：</span><br><span class="line"></span><br><span class="line">   &#96;&#96;&#96;python</span><br><span class="line">   tf.summary.scalar(name&#x3D;&#39;&#39;,tensor)</span><br><span class="line">   收集对于损失函数和精确率等单变量，name为变量名称，tensor为值</span><br><span class="line">   tf.summary.histogram(name&#x3D;&#39;&#39;,tensor)</span><br><span class="line">   收集高纬度的变量参数</span><br><span class="line">   tf.summary.image(name&#x3D;&#39;&#39;,tensor)</span><br><span class="line">   收集输入的图片张量能显示图片</span><br></pre></td></tr></table></figure></code></pre>
+</li>
+<li><p>合并变量写入事件文件：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">merged = tf.summary.merge_all()</span><br><span class="line">运行合并：summary = sess.run(merged)</span><br><span class="line">添加：FileWriter.add_summary(summary,i)	<span class="comment">#每次迭代都需要运行，i表示第几次的值</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="变量作用域："><a href="#变量作用域：" class="headerlink" title="变量作用域："></a>变量作用域：</h3><p>让模块代码更清晰，作用分明，可视化下更加清晰</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> tf.variable_scope(<span class="string">"loss"</span>):</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+
+<h2 id="模型的保存与加载："><a href="#模型的保存与加载：" class="headerlink" title="模型的保存与加载："></a>模型的保存与加载：</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">tf.train.Saver(var_list=NOne,max_to_keep=<span class="number">5</span>)</span><br><span class="line">var_list:指定要保存和还原的变量</span><br><span class="line">max_to_keep:指示要保存的最近检查点文件的最大数量。创建新文件时，会默认删掉旧文件，<span class="number">0</span>或<span class="literal">None</span>则保存所有检查点文件，默认为<span class="number">5</span></span><br><span class="line"></span><br><span class="line">例：</span><br><span class="line">saver = tf.train.Saver()	<span class="comment">#实例化一个保存文件的对象</span></span><br><span class="line">saver.save(sess,<span class="string">'/tmp/ckpt/test/model'</span>)</span><br><span class="line">saver.restore(sess,<span class="string">'/tmp/ckpt/test/model'</span>)</span><br><span class="line">保存文件格式：checkpoint</span><br></pre></td></tr></table></figure>
+
+<h2 id="命令行参数："><a href="#命令行参数：" class="headerlink" title="命令行参数："></a>命令行参数：</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">例：</span><br><span class="line">python <span class="number">04.</span>py --max_step=<span class="number">500</span> </span><br><span class="line"></span><br><span class="line">tf.app.flags.DEFINE_interger(<span class="string">"max_step"</span>,<span class="number">100</span>,<span class="string">"训练的步数"</span>)</span><br><span class="line"><span class="comment">#								name	默认值	  说明</span></span><br><span class="line">FLAGS = tf.app.flags.FLAGS	<span class="comment">#定义获取命令行参数名字</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="tensorflow数据读取："><a href="#tensorflow数据读取：" class="headerlink" title="tensorflow数据读取："></a>tensorflow数据读取：</h2><h3 id="tensorflow队列："><a href="#tensorflow队列：" class="headerlink" title="tensorflow队列："></a>tensorflow队列：</h3><h4 id="tf-FIFOQueue"><a href="#tf-FIFOQueue" class="headerlink" title="tf.FIFOQueue:"></a>tf.FIFOQueue:</h4><p>先进先出队列，顺序出列</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">FIFOQueue(capacity,dtypes,name=<span class="string">"fifo_queue"</span>)</span><br><span class="line">capacity:整数，储存在此队列中元素数量的上限</span><br><span class="line">dtype:dtype对象，</span><br><span class="line">    </span><br><span class="line">内部方法：</span><br><span class="line">dequeue(name=<span class="literal">None</span>)</span><br><span class="line">enqueue(vals,name=<span class="literal">None</span>)</span><br><span class="line">enqueue_many(vals,name=<span class="literal">None</span>)	vals列表或元组</span><br><span class="line">返回一个队列OP</span><br><span class="line">size(name=NOne)</span><br><span class="line"></span><br><span class="line">例：</span><br><span class="line">Q = tf.FIFOQueue(<span class="number">3</span>,tf.float32)</span><br><span class="line">enq_many = Q.enqueue_many([<span class="number">0.1</span>,<span class="number">0.2</span>,<span class="number">0.3</span>])</span><br><span class="line">out_q = Q.dequeue()</span><br><span class="line">data = out_q + <span class="number">1</span></span><br><span class="line">en_q = Q.enqueue(data)</span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">    sess.run(enq_many)	<span class="comment">#初始化队列</span></span><br><span class="line">    <span class="comment">#处理数据：</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100</span>):</span><br><span class="line">    	sess.run(en_q)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(Q.size().eval()):</span><br><span class="line">        print(sess.run(Q.dequeue()))</span><br></pre></td></tr></table></figure>
+
+<h4 id="ft-RandomShuffleQueue"><a href="#ft-RandomShuffleQueue" class="headerlink" title="ft.RandomShuffleQueue:"></a>ft.RandomShuffleQueue:</h4><p>随机出列</p>
+<h4 id="队列管理器："><a href="#队列管理器：" class="headerlink" title="队列管理器："></a>队列管理器：</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">tf.train.QueueRunnner(queue,enqueue_ops =<span class="literal">None</span>)</span><br><span class="line">创建一个QueueRunner</span><br><span class="line">enqueue_ops:添加线程的队列操作列表	[]*<span class="number">2</span>指定两个线程来运行给定会话的入队操作。</span><br><span class="line">create_threads(sess,coord=<span class="literal">None</span>,start=<span class="literal">False</span>)</span><br><span class="line">创建线程来运行给定会话的入队操作。</span><br><span class="line">start:布尔值，<span class="literal">True</span>的话，默认开启线程，flase的话，必须手动调用start()启动线程</span><br><span class="line">coord:线程协调器</span><br><span class="line"><span class="keyword">return</span>:线程的实例</span><br><span class="line"></span><br><span class="line">例：</span><br><span class="line">qr = tf.train.QueueRunner(Q,enqueue_ops=[en_q]*<span class="number">2</span>)	<span class="comment">#定义管理器</span></span><br><span class="line"></span><br><span class="line">threads = qr.create_threads(sess,start=<span class="literal">True</span>)	<span class="comment">#真正开启子线程	在会话中</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="线程协调器："><a href="#线程协调器：" class="headerlink" title="线程协调器："></a>线程协调器：</h4><p>需要一个线程协调器，用于中止其他线程</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">tf.train.COordinator()</span><br><span class="line"></span><br><span class="line">requests_stop()</span><br><span class="line">should_stop()	<span class="comment">#检查是否要求停止</span></span><br><span class="line">join(threads=<span class="literal">None</span>,stop_grace_period_secs=<span class="number">120</span>)	<span class="comment">#等待线程结束</span></span><br><span class="line"><span class="keyword">return</span>：线程协调员实例</span><br><span class="line"></span><br><span class="line">在会话中实例线程协调员，传入create_threads的coord参数中</span><br><span class="line">处理数据完成后，</span><br><span class="line">coord.request_stop()</span><br><span class="line">coord.join(threads)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="文件读取："><a href="#文件读取：" class="headerlink" title="文件读取："></a>文件读取：</h2><h3 id="文件队列的构造："><a href="#文件队列的构造：" class="headerlink" title="文件队列的构造："></a>文件队列的构造：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tf.train.string_input_producer(string_tensor,shuffle=<span class="literal">True</span>)</span><br><span class="line">将输出字符串输入到管道队列中</span><br><span class="line">string_tensor:含有文件名的一阶张量</span><br><span class="line"><span class="keyword">return</span>：具有输出字符串的队列</span><br></pre></td></tr></table></figure>
+
+<h3 id="文件阅读器："><a href="#文件阅读器：" class="headerlink" title="文件阅读器："></a>文件阅读器：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">根据文件格式，对应不同的阅读器：</span><br><span class="line"><span class="number">1.</span> CSV文件：默认按行读	<span class="keyword">return</span>：阅读器实例</span><br><span class="line">tf.TextLineReader()</span><br><span class="line"></span><br><span class="line"><span class="number">2.</span> 每个记录是固定数量字节的二进制文件</span><br><span class="line">tf.FixedLengthRecordReader(record_bytes)</span><br><span class="line">record_bytes:整形，每次读取的字节数</span><br><span class="line"><span class="keyword">return</span>：读取器实例</span><br><span class="line"></span><br><span class="line"><span class="number">3.</span> 读取TFRecords文件</span><br><span class="line">tf.TFrecordReader</span><br><span class="line"></span><br><span class="line">上述三个阅读器都有一个共同的方法：read(file_queue):从队列中指定数量的内容</span><br><span class="line">返回一个Tensor元组（key文件名字，value默认的内容）</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="文件阅读解码："><a href="#文件阅读解码：" class="headerlink" title="文件阅读解码："></a>文件阅读解码：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">由于从文件中读取的是字符串，需要有函数去解析这些字符串到张量</span><br><span class="line"></span><br><span class="line"><span class="number">1.</span></span><br><span class="line">tf.decode_csv(records,record_defaults=<span class="literal">None</span>,field_delim=<span class="literal">None</span>,name=<span class="literal">None</span>)</span><br><span class="line">将csv转化成张量，与tf.TextLineReader搭配使用</span><br><span class="line">records：tensor类型的字符串每个字符串是csv中的记录行</span><br><span class="line">record_defaults：决定张量的类型，并设置一个值在输入字符串缺少时候的默认值</span><br><span class="line">field_delim：默认分隔符 <span class="string">","</span></span><br><span class="line">name=<span class="literal">None</span></span><br><span class="line"></span><br><span class="line"><span class="number">2.</span></span><br><span class="line">tf.decode_raw(bytes,out_type,little_endian=<span class="literal">None</span>,name=<span class="literal">None</span>)</span><br><span class="line">与tf.FixedLengthRecordReader(record_bytes)搭配使用，二进制读取为uint8</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">例：</span><br><span class="line">file_name = os.listdir(<span class="string">"./data/csvdata"</span>)</span><br><span class="line">file_list = [os.path.join(<span class="string">"./data/csvdata"</span>,file) <span class="keyword">for</span> file <span class="keyword">in</span> file_name]</span><br><span class="line">file_queue = tf.train.string_input_producer(file_list)</span><br><span class="line">reader = tf.TextLineReader()</span><br><span class="line">key,value = reader.read(file_queue)</span><br><span class="line">records = [[<span class="string">"None"</span>],[<span class="string">"None"</span>]]	<span class="comment">#指定每个样本每一列的内容，指定默认值</span></span><br><span class="line">example,label = tf.decode_csv(value,record_defaults=records)</span><br></pre></td></tr></table></figure>
+
+<h3 id="开启线程操作："><a href="#开启线程操作：" class="headerlink" title="开启线程操作："></a>开启线程操作：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">tf.train.start_queue_runners(sess=<span class="literal">None</span>,coord=<span class="literal">None</span>)</span><br><span class="line">收集所有图中的队列线程，并启动队列</span><br><span class="line">sess:所在队列</span><br><span class="line">coord:线程协调器</span><br><span class="line"><span class="keyword">return</span>:返回所有线程队列</span><br><span class="line"></span><br><span class="line">使用tf.train.start_queue_runners(sess=<span class="literal">None</span>,coord=<span class="literal">None</span>)后，才会启动填充队列，此后，计算单元拿到数据，并开始计算。</span><br><span class="line"></span><br><span class="line">至此，启动线程有两种方法：</span><br><span class="line"><span class="number">1.</span> tf.train.QueueRunnner(queue,enqueue_ops =<span class="literal">None</span>)</span><br><span class="line"><span class="number">2.</span> tf.train.start_queue_runners(sess=<span class="literal">None</span>,coord=<span class="literal">None</span>)</span><br><span class="line"></span><br><span class="line">在读取文件时，由于文件管道没有enqueue和dequeue，所以用第二种</span><br><span class="line"></span><br><span class="line">例：</span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">    coord = tf.train.Coordinator()</span><br><span class="line">    threads = tf.train.start_queue_runners(sess,coord=coord)</span><br><span class="line">    print(sess.run([example,label])</span><br><span class="line">    coord.request_stop()</span><br><span class="line">    coord.join(threads)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="管道读端批处理："><a href="#管道读端批处理：" class="headerlink" title="管道读端批处理："></a>管道读端批处理：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">tf.train.batch(tensor,batch_size,num_threads=<span class="number">1</span>,capacity=<span class="number">32</span>,name=<span class="literal">None</span>)</span><br><span class="line">读取指定大小的张量</span><br><span class="line">tensor：包含张量的列表</span><br><span class="line">batch_size：从队列中读取的批处理大小</span><br><span class="line">num_threads：进入队列的进程数</span><br><span class="line">capacity：整数，最大元素数</span><br><span class="line">name=<span class="literal">None</span>：tensors</span><br><span class="line"></span><br><span class="line">tf.train.shuffle_batch(tensor,batch_size,capacity,min_after_dequeue,num_threads=<span class="number">1</span>)</span><br><span class="line">乱序读取指定大小的张量</span><br><span class="line">min_after_dequeue：留下队列里的张量数，能够保证随机打乱</span><br><span class="line">使用<span class="keyword">for</span>循环读取值image_bath[i]代表第i个值</span><br></pre></td></tr></table></figure>
+
+<h2 id="图片的读取："><a href="#图片的读取：" class="headerlink" title="图片的读取："></a>图片的读取：</h2><p>图片三要素：长度，宽度，通道数(一通道：黑白片，三通道：RGB)</p>
+<p>[height,width,channels]    长度，宽度，通道数</p>
+<img src="C:\Users\杨浩伟\Desktop\寒假笔记\png\{30B7F61C-C25C-F492-3B3B-935C6DB72441}.png" alt="{30B7F61C-C25C-F492-3B3B-935C6DB72441}" style="zoom:50%;" />
+
+<h3 id="图片基本操作："><a href="#图片基本操作：" class="headerlink" title="图片基本操作："></a>图片基本操作：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">tf.image.resize_images(images,size)</span><br><span class="line">缩小图片</span><br><span class="line">images:[batch,height,width,channels]或[heogh,width,channels]</span><br><span class="line">size:int32 张量：new_height,new_width,图片的新尺寸</span><br><span class="line"><span class="keyword">return</span>：返回<span class="number">4</span>-D或<span class="number">3</span>-D格式图片</span><br><span class="line">[batch,height,width,channels]：例：[<span class="number">200</span>,<span class="number">200</span>,<span class="number">200</span>,<span class="number">3</span>]<span class="number">200</span>张<span class="number">200</span>*<span class="number">200</span>的彩色图片</span><br></pre></td></tr></table></figure>
+
+<h3 id="图片读取："><a href="#图片读取：" class="headerlink" title="图片读取："></a>图片读取：</h3><p><strong>图片读取器：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tf.WholeFileReader</span><br><span class="line">将文件的所有内容作为值输出的读取器</span><br><span class="line"><span class="keyword">return</span>：读取器实例</span><br><span class="line">read(file_queue):输出的将是一个文件名(key)，和文件内容(值)</span><br></pre></td></tr></table></figure>
+
+<p><strong>图片解码器：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">tf.image.decode_jpeg(contents)</span><br><span class="line">将JPEG编码的图像解码为uint8张量</span><br><span class="line"><span class="keyword">return</span>：uint8张量，形状：[height,width,channels]</span><br><span class="line"></span><br><span class="line">tf.image.decode_png(contents)</span><br><span class="line">将png编码的图像解码为uint8或uint16</span><br><span class="line"><span class="keyword">return</span>：张量，形状：[height,width,channels]</span><br></pre></td></tr></table></figure>
+
+<h3 id="图片储存与计算类型："><a href="#图片储存与计算类型：" class="headerlink" title="图片储存与计算类型："></a>图片储存与计算类型：</h3><p>储存：uint8(节约空间)</p>
+<p>矩阵计算：float32(提高精度)</p>
+<h3 id="二进制版本："><a href="#二进制版本：" class="headerlink" title="二进制版本："></a>二进制版本：</h3><p>文件格式:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">1x标签</span>&gt;</span><span class="tag">&lt;<span class="name">3072x像素</span>&gt;</span></span><br><span class="line"> 。。。</span><br><span class="line"><span class="tag">&lt;<span class="name">1x标签</span>&gt;</span><span class="tag">&lt;<span class="name">3072x像素</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>第一个字节是第一个人图像的标签，范围0-9，接下来的3072字节是图像像素的值，前1024个字节为红色通道值</p>
+<h2 id="TFRecords分析提取"><a href="#TFRecords分析提取" class="headerlink" title="TFRecords分析提取"></a>TFRecords分析提取</h2><p>TFRecords为tensorflow内置类型，一种二进制文件，他能更好利用内存，方便复制与移动</p>
+<p>将二进制数据和标签数据存储在同一个文件中</p>
+<h3 id="TFRecords的存储："><a href="#TFRecords的存储：" class="headerlink" title="TFRecords的存储："></a>TFRecords的存储：</h3><p><strong>建立TFRecord储存器：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">tf.python_io.TFRecordWriter(path)</span><br><span class="line">写入tfrecords文件：</span><br><span class="line">	path:TFRecords文件路径</span><br><span class="line">    <span class="keyword">return</span>：写文件op</span><br><span class="line">method:</span><br><span class="line">    write(record):向文件中写入一个字符串记录</span><br><span class="line">    close():关闭文件写入器</span><br><span class="line">        </span><br><span class="line">构造每个样本的Example协议:</span><br><span class="line">    tf.train.Example(feature=<span class="literal">None</span>)</span><br><span class="line">    	写入tfrecords文件</span><br><span class="line">        feature:tf.train.feature类型的特征实例</span><br><span class="line">        <span class="keyword">return</span>：example格式协议块</span><br><span class="line">    tf.train.Features(feature=<span class="literal">None</span>)</span><br><span class="line">    	构建每个样本的信息键值对</span><br><span class="line">        feature:字典数据，key为要保存的名字</span><br><span class="line">        value为tf.train.Feature实例</span><br><span class="line">        <span class="keyword">return</span>：Features类型</span><br><span class="line">    tf.train.Feature(**option):</span><br><span class="line">        **option:例如：</span><br><span class="line">            bytes_list= tf.train.BytesList(value=[Bytes])</span><br><span class="line">            int64_list= tf.train.BytesList(value=[int64])</span><br><span class="line">            float_list= tf.train.BytesList(value=[float])</span><br><span class="line">            </span><br><span class="line">例：</span><br><span class="line">writer = tf.python_io.TFRecordWriter(path)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">    image = image_batch[i].eval().tostring()</span><br><span class="line">    lable = int(label_batch[i].eval()[<span class="number">0</span>])</span><br><span class="line">    example = tf.train.Example(feature=tf.train.Feature(frature=&#123;</span><br><span class="line">        <span class="string">"image"</span>:tf.train.Feature(byte_list=tf.train.BytesList(value=[image])),</span><br><span class="line">        <span class="string">"label"</span>:tf.train.Feature(int64_list=tf.train.Int64List(value=[label])),</span><br><span class="line">    &#125;))</span><br><span class="line">    writer.write(example.SerializeToString())</span><br><span class="line">writer.close()</span><br><span class="line"><span class="keyword">return</span> <span class="literal">None</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="TFrecords的读取："><a href="#TFrecords的读取：" class="headerlink" title="TFrecords的读取："></a>TFrecords的读取：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">tf.parse_single_example(serialized,features=<span class="literal">None</span>,name=<span class="literal">None</span>)</span><br><span class="line">解析单一的example协议块</span><br><span class="line">serialized:标量字符串Tensor，一个序列化的Example</span><br><span class="line">features:dict字典数据，键为读取名称，值为FixedLenFeature</span><br><span class="line"><span class="keyword">return</span>：一个键值对组成的字典</span><br><span class="line"></span><br><span class="line">tf.FixedLenFeature(shaoe,dtype)</span><br><span class="line">shape:输入数据的形状，一般不指定，为空列表</span><br><span class="line">dtype:输入数据的类型，与存储进的文件类型要一致</span><br><span class="line">类型只能为float32,int64,string</span><br><span class="line"></span><br><span class="line">例：</span><br><span class="line">reader = tf.TFRecordReader()</span><br><span class="line">key,value = reader.read(file_queue)</span><br><span class="line"><span class="comment">#解码</span></span><br><span class="line">feature = tf.parse_single_example(value,feature=&#123;</span><br><span class="line">    <span class="string">"image"</span>:tf.FixedLenFeature([],tf.string),</span><br><span class="line">    <span class="string">"label"</span>:tf.FixedLenFeature([],tf.int64)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">#解码内容如果是字符串，则需要解码，如果是int64,float32则不需要解码</span></span><br><span class="line">image = tf.decode_raw(feature[<span class="string">"image"</span>],tf.int8)</span><br><span class="line"></span><br><span class="line">image_reshape = tf.reshape(image,[height,width,channel])</span><br><span class="line">label = tf.cast[features[<span class="string">"label"</span>],tf,int32]</span><br><span class="line">image_batch,label_batch = tf.train.batch([image_reshape,label],batch_size=<span class="number">10</span>,num_threads = <span class="number">1</span>,capacity = <span class="number">32</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="tensorflow与深度学习"><a href="#tensorflow与深度学习" class="headerlink" title="tensorflow与深度学习"></a>tensorflow与深度学习</h2><p>神经网络是一个生物启发式的计算和学习模型。像生物神经元一样，它们从其他细胞（神经元或环境）获得加<strong>权</strong>输入。这个加权输入经过一个处理单元并产生可以是二进制或连续（概率，预测）的输出。</p>
+<p>生物神经网络和人工神经网络的相似性：</p>
+<img src="http://c.biancheng.net/uploads/allimg/190107/2-1Z10GGGB45.gif" alt="生物神经网络和人工神经网络的相似性" style="zoom:50%;" />
+
+<p>任何深度学习网络都由四个重要部分组成：数据集、定义模型（网络结构）、训练/学习和预测/评估。</p>
+<h2 id="通过feed-dict传递数据"><a href="#通过feed-dict传递数据" class="headerlink" title="通过feed_dict传递数据"></a>通过feed_dict传递数据</h2><p>在这种情况下，运行每个步骤时都会使用 run() 或 eval() 函数调用中的 feed_dict 参数来提供数据。这是在占位符的帮助下完成的，这个方法允许传递 Numpy 数组数据。可以使用 TensorFlow 的以下代码：</p>
+<p><img src="http://c.biancheng.net/uploads/allimg/190107/2-1Z10GH344M4.gif" alt="img"></p>
+<h1 id="神经网络的过拟合解决问题："><a href="#神经网络的过拟合解决问题：" class="headerlink" title="神经网络的过拟合解决问题："></a>神经网络的过拟合解决问题：</h1><p>全连接层最容易导致过拟合问题，那么，我们可以不进行全连接，加入dropout层</p>
+<p><img src="C:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200222114635313.png" alt="image-20200222114635313"></p>
+<h1 id="优化："><a href="#优化：" class="headerlink" title="优化："></a>优化：</h1><h1 id="数据预处理："><a href="#数据预处理：" class="headerlink" title="数据预处理："></a>数据预处理：</h1><p><img src="C:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200222113543764.png" alt="image-20200222113543764"></p>
+<p>原始数据要进行至少两个处理，把数据减去平均值，把数据输出到以0为中心的数据，数据的x轴窄，y轴宽，需要除以标准差，</p>
+<h1 id="深度学习："><a href="#深度学习：" class="headerlink" title="深度学习："></a>深度学习：</h1><p>人工神经网络(ANN)，一种模仿生物神经网络结构和功能的计算模型，用于函数进行估计或近似。</p>
+<p>分类：</p>
+<p>基础神经网络：单yua你的he’shu层感知机，线性神经网络，BP神经网络，Hopfield神经网络</p>
+<p>进阶神经网络：波尔兹曼机，受限泊尔兹曼机，递归神经网络</p>
+<p>深度神经网络：卷积神经网络，深度置信网络，循环神经网络，LSTM神经网络</p>
+<p><img src="C:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%7BC9A53B97-5A89-A9F7-6BD0-562235DDE710%7D.png" alt="{C9A53B97-5A89-A9F7-6BD0-562235DDE710}"></p>
+<p>神经网路特点：</p>
+<ol>
+<li>输入向量的维度和输入神经元的个数一致</li>
+<li>每个连接都有一个权值</li>
+<li>同一层神经元之间没有连接</li>
+<li>由输入，隐层，输出层组成</li>
+<li>第N层与第N-1层所有神经元连接，也叫全连接</li>
+</ol>
+<h2 id="SVM损失函数："><a href="#SVM损失函数：" class="headerlink" title="SVM损失函数："></a>SVM损失函数：</h2><p><img src="C:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200222095951687.png" alt="image-20200222095951687"></p>
+<h2 id="关于SVM的正则化惩罚："><a href="#关于SVM的正则化惩罚：" class="headerlink" title="关于SVM的正则化惩罚："></a>关于SVM的正则化惩罚：</h2><img src="C:\Users\杨浩伟\Desktop\寒假笔记\png\image-20200222101008165.png" alt="image-20200222101008165" style="zoom: 50%;" />
+
+<p>如图两个权重，关于输出值，两个权重关于这个样本都可以算出相同的输出值，但是权重1只关注x的第一个特征，而权重二是均匀的关注每个特征，如何写损失函数呢。可以增加惩罚项，L1或L2正则化。</p>
+<p><img src="C:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200222101326617.png" alt="image-20200222101326617"></p>
+<p>L1正则化就是损失函数加上权重。</p>
+<p>L2正则化就是损失函数加上权重的平方。此时权重1的平方就是1，权重2的平方却是1/4。</p>
+<h2 id="tensorflow三个模块："><a href="#tensorflow三个模块：" class="headerlink" title="tensorflow三个模块："></a>tensorflow三个模块：</h2><p>tf.nn    tf.layers    tf.contrib</p>
+<img src="C:\Users\杨浩伟\Desktop\寒假笔记\png\{876ABBE1-F8FA-F0BA-F0A9-4BA1B677B735}.png" alt="{876ABBE1-F8FA-F0BA-F0A9-4BA1B677B735}" style="zoom:50%;" />
+
+<h2 id="softMax回归："><a href="#softMax回归：" class="headerlink" title="softMax回归："></a>softMax回归：</h2><p>二分类函数sigmod在多分类上的推广    目的是将多分类的结果以概率的形式展现出来</p>
+<img src="https://img-blog.csdnimg.cn/20181128162309759.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2x6X3BldGVy,size_16,color_FFFFFF,t_70" alt="img" style="zoom: 80%;" />
+
+<p><strong>为什么softmax是这种形式</strong></p>
+<p>概率有两个性质：</p>
+<ol>
+<li>预测的概率为非负数；(利用指数函数的非负性)</li>
+<li>各种预测结果概率之和等于1。</li>
+</ol>
+<p>softmax就是将在负无穷到正无穷上的预测结果按照这两步转换为概率的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tf.nn.softmax_cross_entropy_with_logist(labels=<span class="literal">None</span>,logits=<span class="literal">None</span>,name=<span class="literal">None</span>)</span><br><span class="line">labels=<span class="literal">None</span>	真实值</span><br><span class="line">logist=<span class="literal">None</span>	样本加权之后的值</span><br><span class="line"><span class="keyword">return</span>：返回损失值列表</span><br></pre></td></tr></table></figure>
+
+<p>先计算softMax，再计算交叉熵</p>
+<p>sotfmax详解：</p>
+<p><img src="C:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200222102942564.png" alt="image-20200222102942564"></p>
+<p><img src="C:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200222103020937.png" alt="image-20200222103020937"></p>
+<p>softmax的分子会把小的数放大，大的数放的更大，然后除以分母算概率。</p>
+<p>计算softmax的损失函数，用交叉熵损失</p>
+<p>因为正例的概率越小，证明损失越大，整理的概率越大，损失越小，而取log正好满足这个特性，还需再加个负号。</p>
+<h2 id="SVM与softMax的比较："><a href="#SVM与softMax的比较：" class="headerlink" title="SVM与softMax的比较："></a>SVM与softMax的比较：</h2><p>SVM要是正确预测出目标值，那么它的损失值会是零，即使每个正例误例非常接近，损失值也是零。</p>
+<p>而softMax则是永远都不会满足的函数。</p>
+<h2 id="损失函数："><a href="#损失函数：" class="headerlink" title="损失函数："></a>损失函数：</h2><h3 id="交叉熵损失函数："><a href="#交叉熵损失函数：" class="headerlink" title="交叉熵损失函数："></a>交叉熵损失函数：</h3><p><img src="C:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%7BB678EE25-E9E2-7933-D7E6-F41D4DFCE228%7D.png" alt="{B678EE25-E9E2-7933-D7E6-F41D4DFCE228}"></p>
+<table>
+<thead>
+<tr>
+<th>算法</th>
+<th>策略</th>
+<th>优化</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>线性回归</td>
+<td>均方误差</td>
+<td>梯度下降</td>
+</tr>
+<tr>
+<td>逻辑回归</td>
+<td>对数似然损失</td>
+<td>梯度下降</td>
+</tr>
+<tr>
+<td>神经网络</td>
+<td>交叉熵损失</td>
+<td>反向传播算法</td>
+</tr>
+</tbody></table>
+<h2 id="全连接："><a href="#全连接：" class="headerlink" title="全连接："></a>全连接：</h2><h3 id="特征加权："><a href="#特征加权：" class="headerlink" title="特征加权："></a>特征加权：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tf.matmul(a,b,name=<span class="literal">None</span>) + bias </span><br><span class="line"><span class="keyword">return</span>:全连接结果，供交叉熵运算</span><br><span class="line">不需要激活函数</span><br></pre></td></tr></table></figure>
+
+<h2 id="列表平均值计算："><a href="#列表平均值计算：" class="headerlink" title="列表平均值计算："></a>列表平均值计算：</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tf.reduce_mean(input_tensor)</span><br><span class="line">计算张量的尺寸的元素平均值</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="梯度下降API"><a href="#梯度下降API" class="headerlink" title="梯度下降API"></a>梯度下降API</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">tf.train.GradientDescentOptimizer(learnning_rate)</span><br><span class="line">learnning_rate:学习率</span><br><span class="line"><span class="keyword">return</span>: 梯度下降OP</span><br><span class="line">minimize(loss):最小化损失</span><br><span class="line">梯度下降算法	minimize返回的是一个操作（op）,通过更新 var_list 来最小化loss</span><br></pre></td></tr></table></figure>
+
+<h2 id="one-hot"><a href="#one-hot" class="headerlink" title="one-hot:"></a>one-hot:</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">tf.one_hot(indices,depth,on_value=<span class="literal">None</span>,off_value=<span class="literal">None</span>,axis=<span class="literal">None</span>,dtype=<span class="literal">None</span>,name=<span class="literal">None</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">例：</span><br><span class="line">code = tf.one_hot([<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">1</span>],depth=<span class="number">3</span>)</span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">    print(sess.run(code))</span><br><span class="line"></span><br><span class="line">    结果：</span><br><span class="line">[[<span class="number">1.</span> <span class="number">0.</span> <span class="number">0.</span>]</span><br><span class="line"> [<span class="number">0.</span> <span class="number">1.</span> <span class="number">0.</span>]</span><br><span class="line"> [<span class="number">0.</span> <span class="number">0.</span> <span class="number">1.</span>]</span><br><span class="line"> [<span class="number">0.</span> <span class="number">1.</span> <span class="number">0.</span>]]</span><br></pre></td></tr></table></figure>
+
+<h2 id="准确率预测："><a href="#准确率预测：" class="headerlink" title="准确率预测："></a>准确率预测：</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">equal_list = tf.equal(tf.argmax(y_true,<span class="number">1</span>),tf.argmax(y_predict,<span class="number">1</span>))</span><br><span class="line">acc = tf.reduce_mean(tf.cast(equal_list,tf.float32))</span><br><span class="line"><span class="comment">#通过比较真实值里的1和预测值里最大的那个类别是否一致，通过平均值计算，得到概率</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="全连接之mnist训练："><a href="#全连接之mnist训练：" class="headerlink" title="全连接之mnist训练："></a>全连接之mnist训练：</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line">os.environ[<span class="string">'TF_CPP_MIN_LOG_LEVEL'</span>] = <span class="string">'2'</span></span><br><span class="line">os.environ[<span class="string">"CUDA_VISIBLE_DEVICES"</span>]=<span class="string">"-1"</span></span><br><span class="line"><span class="keyword">from</span> tensorflow.examples.tutorials.mnist <span class="keyword">import</span> input_data		<span class="comment">#数据来源</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">mnist=input_data.read_data_sets(<span class="string">"C:\\Users\\杨浩伟\\Desktop\\寒假笔记\\minst"</span>,one_hot=<span class="literal">True</span>)</span><br><span class="line"><span class="comment">#读取数据集，采用one_hot编码</span></span><br><span class="line">x = tf.placeholder(tf.float32,[<span class="literal">None</span>,<span class="number">784</span>])</span><br><span class="line">y_true = tf.placeholder(tf.float32,[<span class="literal">None</span>,<span class="number">10</span>])</span><br><span class="line"><span class="comment">#设置占位符	x代表样本的特征值	y_true代表样本的目标值</span></span><br><span class="line">weight = tf.Variable(tf.random_normal([<span class="number">784</span>,<span class="number">10</span>],mean=<span class="number">0.0</span>,stddev=<span class="number">1.0</span>))</span><br><span class="line"></span><br><span class="line">bias = tf.Variable(tf.constant(<span class="number">0.0</span>,shape=[<span class="number">10</span>]))</span><br><span class="line"><span class="comment">#初始化权重和偏置</span></span><br><span class="line">y_predict = tf.matmul(x,weight) + bias</span><br><span class="line"><span class="comment">#表达式</span></span><br><span class="line">loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=y_true,logits=y_predict))</span><br><span class="line"><span class="comment">#softmax表示结果，交叉熵计算损失：真实结果*log预测结果 的积分	</span></span><br><span class="line">train_op = tf.train.GradientDescentOptimizer(<span class="number">0.1</span>).minimize(loss)</span><br><span class="line"><span class="comment">#梯度下降</span></span><br><span class="line">equal_list = tf.equal(tf.argmax(y_true,<span class="number">1</span>),tf.argmax(y_predict,<span class="number">1</span>))</span><br><span class="line">acc = tf.reduce_mean(tf.cast(equal_list,tf.float32))</span><br><span class="line"><span class="comment">#精确率</span></span><br><span class="line">init_op = tf.global_variables_initializer()</span><br><span class="line"><span class="comment">#初始化全局变量</span></span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">    sess.run(init_op)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2000</span>):</span><br><span class="line">        mnist_x,mnist_y = mnist.train.next_batch(<span class="number">50</span>)</span><br><span class="line">        sess.run(train_op,feed_dict=&#123;x:mnist_x,y_true:mnist_y&#125;)</span><br><span class="line">        print(<span class="string">"训练第%d次，准确率为：%f"</span> %(i,sess.run(acc,feed_dict=&#123;x:mnist_x,y_true:mnist_y&#125;)))</span><br><span class="line">   	saver.save(sess, <span class="string">'C:\\Users\\杨浩伟\\Desktop\\寒假笔记\\模型保存\\mnist'</span>)<span class="comment">#保存模型</span></span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">使用模型：</span><br><span class="line">weight = tf.Variable(tf.random_normal([<span class="number">784</span>,<span class="number">10</span>],mean=<span class="number">0.0</span>,stddev=<span class="number">1.0</span>))</span><br><span class="line">bias = tf.Variable(tf.constant(<span class="number">0.0</span>,shape=[<span class="number">10</span>]))</span><br><span class="line">image_value = tf.read_file(<span class="string">"C:\\Users\\杨浩伟\\Desktop\\7.jpg"</span>)</span><br><span class="line">img = tf.image.decode_png(image_value)</span><br><span class="line">images_reshape = tf.image.resize_images(img,[<span class="number">28</span>,<span class="number">28</span>])</span><br><span class="line">images_reshape_reshape = tf.reshape(images_reshape,[<span class="number">1</span>,<span class="number">784</span>])</span><br><span class="line"><span class="comment">#更改图片大小，像素数</span></span><br><span class="line">im = tf.cast(images_reshape_reshape,tf.float32)</span><br><span class="line">y_predict = tf.matmul(im,weight) + bias</span><br><span class="line">saver = tf.train.Saver()</span><br><span class="line">init_op = tf.global_variables_initializer()</span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">    sess.run(init_op)</span><br><span class="line">    saver.restore(sess,<span class="string">'C:\\Users\\杨浩伟\\Desktop\\寒假笔记\\模型保存\\mnist'</span> )</span><br><span class="line">    <span class="comment">#直接导入即可</span></span><br><span class="line">    sess.run(y_predict)</span><br><span class="line">    print(tf.argmax(y_predict,<span class="number">1</span>).eval())</span><br></pre></td></tr></table></figure>
+
+<h2 id="全神经网络的缺点："><a href="#全神经网络的缺点：" class="headerlink" title="全神经网络的缺点："></a>全神经网络的缺点：</h2><ol>
+<li>参数太多，权重太多</li>
+<li>没有利用像素点间的位置信息</li>
+<li>层数限制</li>
+</ol>
+<h2 id="梯度爆炸与梯度消失："><a href="#梯度爆炸与梯度消失：" class="headerlink" title="梯度爆炸与梯度消失："></a>梯度爆炸与梯度消失：</h2><p>极端情况下，权值会非常大，以至于溢出，导致NaN</p>
+<p>解决梯度爆炸问题：</p>
+<ol>
+<li>重新设计网络</li>
+<li>调整学习率</li>
+<li>使用激活函数</li>
+</ol>
+<h2 id="卷积神经网络CNN："><a href="#卷积神经网络CNN：" class="headerlink" title="卷积神经网络CNN："></a>卷积神经网络CNN：</h2><p>神经网络包括：输入层，隐藏层，输出层</p>
+<p>而卷积网络最大的特点就是隐藏层分为卷积层和池化层。</p>
+<p>卷积层：通过在原始图像上平移来提取特征</p>
+<p>池化层：通过特征后稀疏参数来减小学习的参数，降低网络复杂度</p>
+<img src="https://images2018.cnblogs.com/blog/1226410/201809/1226410-20180910191025559-865156930.png" alt="img" style="zoom:50%;" />
+
+<h3 id="结构："><a href="#结构：" class="headerlink" title="结构："></a>结构：</h3><p>卷积层过滤器：个数，大小，步长，零填充</p>
+<p>卷积层输出深度由过滤器个数决定，输出宽度由</p>
+<p>结构：1.卷积层，池化层，全连接层</p>
+<p>大型网络里会有一层droupout层（减少过拟合）    如果神经元数目过大，学习能力强，有可能出现过拟合。因此，可以引入dropout操作，来随机删除神经网络中的部分神经元，来解决此问题。还可以进行<strong>局部归一化</strong>（LRN）、数据增强等操作，来增加鲁棒性。 </p>
+<h3 id="组成："><a href="#组成：" class="headerlink" title="组成："></a>组成：</h3><p>输入层，卷积层，激活函数，池化层，全连接层</p>
+<h3 id="卷积层计算过程："><a href="#卷积层计算过程：" class="headerlink" title="卷积层计算过程："></a>卷积层计算过程：</h3><p>定义过滤器大小(相当于观察窗口)，步长（窗口移动的像素数量），</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1*1,3*3,5*5		1</span><br></pre></td></tr></table></figure>
+
+<p>窗口会被分割，并给出权重与偏置</p>
+<p>卷积层的零填充：</p>
+<p>由于步长不一定能整除整张图的像素宽度，有两种方法切割：SAME和VALID</p>
+<p>SAME：越过边缘取样，取样的面积和输入图像的像素宽度一致</p>
+<p>VALID：不约过边缘取样，取样的面积小于输入的图像的像素宽度</p>
+<img src="C:\Users\杨浩伟\AppData\Roaming\Typora\typora-user-images\image-20200214111826081.png" alt="image-20200214111826081" style="zoom: 80%;" />
+
+<h3 id="参数共享："><a href="#参数共享：" class="headerlink" title="参数共享："></a>参数共享：</h3><p><img src="C:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200221225750949.png" alt="image-20200221225750949"></p>
+<p>传统神经网络：</p>
+<p>假如有32x32x3的输入规模，卷积层 10个5x5的过滤器，步长为1，填充为2，则会有32x32x10的输出规模，</p>
+<p>而输入的规模，每5x5x3(75个权重)个映射到输出的1x1上，输出有32x32x10个1x1，所以会有32x32x10x75个权重。</p>
+<p>卷积神经网络：</p>
+<p>如上上图，每个过滤器上的权值不变，所以，卷积神经网络则需要5x5x3x10+10个参数</p>
+<h3 id="卷积层API："><a href="#卷积层API：" class="headerlink" title="卷积层API："></a>卷积层API：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">tf.nn.conv2d(input,filter,strides=,padding=,name=<span class="literal">None</span>)</span><br><span class="line">计算给定<span class="number">4</span>-D input和filter张量的<span class="number">2</span>维卷积</span><br><span class="line">input：给定输入张量</span><br><span class="line">filter：指定过滤器大小	[filter_height,filter_width,in_channels,out_channels]</span><br><span class="line">out_channel是指有多少个filter</span><br><span class="line">strides：步长</span><br><span class="line">padding：使用的填充算法</span><br><span class="line">name：</span><br></pre></td></tr></table></figure>
+
+<h3 id="新激活函数："><a href="#新激活函数：" class="headerlink" title="新激活函数："></a>新激活函数：</h3><p>不使用sigmod:</p>
+<ol>
+<li>使用sigmod，反向传播求误差梯度时，计算量大，采用relu函数，计算量就小很多。</li>
+<li>对于深度网络时，sigmod函数就有可能导致梯度爆炸。</li>
+<li>容易造成梯度消失，导致神经网络不会收敛。</li>
+</ol>
+<h3 id="池化层："><a href="#池化层：" class="headerlink" title="池化层："></a>池化层：</h3><p>主要是提取特征，通过去除Feature Map中不重要的样本，进一步减少参数个数</p>
+<p>主要用于特征降维，压缩数据和参数的数量，减小过拟合，同时提高模型的容错性。主要有：</p>
+<ul>
+<li><ul>
+<li>Max Pooling：最大池化</li>
+<li>Average Pooling：平均池化 </li>
+</ul>
+</li>
+</ul>
+<p><img src="https://images2018.cnblogs.com/blog/1226410/201809/1226410-20180910194605414-874059268.png" alt="img"></p>
+<p>API：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">tf.nn.max_pool(value,ksize=,strides=,padding=,name=<span class="literal">None</span>)</span><br><span class="line">输入执行的最大池数</span><br><span class="line">value：<span class="number">4</span>-D形状</span><br><span class="line">ksize：池化窗口大小</span><br><span class="line">strides：步长</span><br><span class="line">padding：填充算法</span><br></pre></td></tr></table></figure>
+
+<h3 id="全连接层："><a href="#全连接层：" class="headerlink" title="全连接层："></a>全连接层：</h3><p>卷积和池化相当于做特征工程，全连接相当于做特征加权，起到分类器的作用</p>
+<h3 id="前向传播与反向传播"><a href="#前向传播与反向传播" class="headerlink" title="前向传播与反向传播:"></a>前向传播与反向传播:</h3><p><img src="C:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200221232418244.png" alt="image-20200221232418244"></p>
+<p>前向传播：相当于OUT = WX+B</p>
+<p>反向传播：dW = dOUT*X</p>
+<p>求导用求导定义求，权重的导就等于结果导乘X</p>
+<p>就第一个权重矩阵来说，dw = 第一块3x3矩阵 * 输出第一块结果的变化 + 。。。。</p>
+<p><strong>池化层的前后向传播：</strong></p>
+<p><img src="C:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200221233011665.png" alt="image-20200221233011665"></p>
+<h3 id="卷积神经网络实现mnist训练："><a href="#卷积神经网络实现mnist训练：" class="headerlink" title="卷积神经网络实现mnist训练："></a>卷积神经网络实现mnist训练：</h3><p>卷积神经网络：</p>
+<ol>
+<li><p>一层卷积：卷积：32个filter，5*5，步长为1，padding为SAME，bias=32</p>
+<p>​        输入：[None，28，28，1]    输出：[None，28，28，32]</p>
+<p>​                激活：[None，28，28，32]</p>
+<p>​        池化：2*2 ，步长为2，padding为SAME</p>
+<p>​        [None，28，28，32]–&gt;[None，14，14，32]</p>
+</li>
+<li><p>二层卷积：64个filter，5*5，步长为1，padding为SAME bias=64</p>
+<p>​        输入：[None,14,14,32]    输出：[None,14,14,64]</p>
+<p>​                激活：[None,14,14,64]</p>
+<p>​        池化：2*2，步长为2</p>
+<p>​        [None，7，7，64]—&gt;[None，7，7，64]</p>
+</li>
+<li><p>全连接层：</p>
+<p>​        [None，7x7x64]    [7x7x64，10]    bias=[10]    [None，10]</p>
+</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#实现：</span></span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="comment"># from tensorflow.keras import datasets</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> tensorflow.examples.tutorials.mnist <span class="keyword">import</span> input_data</span><br><span class="line">mnist = input_data.read_data_sets(<span class="string">"C:\\Users\\杨浩伟\\Desktop\\寒假笔记\\minst"</span>, one_hot=<span class="literal">True</span>)</span><br><span class="line">os.environ[<span class="string">'TF_CPP_MIN_LOG_LEVEL'</span>] = <span class="string">'2'</span></span><br><span class="line">os.environ[<span class="string">"CUDA_VISIBLE_DEVICES"</span>]=<span class="string">"-1"</span></span><br><span class="line"><span class="comment">#卷积一层</span></span><br><span class="line">x_true_data = tf.placeholder(tf.float32, [<span class="literal">None</span>,<span class="number">784</span>])</span><br><span class="line">y_true_label = tf.placeholder(tf.float32, [<span class="literal">None</span>,<span class="number">10</span>])</span><br><span class="line"></span><br><span class="line">w_conv1 = tf.Variable(tf.random_normal(shape=[<span class="number">5</span>,<span class="number">5</span>,<span class="number">1</span>,<span class="number">32</span>],mean=<span class="number">0.0</span>,stddev=<span class="number">1.0</span>))</span><br><span class="line">b_conv1 = tf.Variable(tf.constant(<span class="number">0.0</span>,shape=[<span class="number">32</span>]))</span><br><span class="line">x_reshape = tf.reshape(x_true_data,[<span class="number">-1</span>,<span class="number">28</span>,<span class="number">28</span>,<span class="number">1</span>])</span><br><span class="line">x_relu1 = tf.nn.relu(tf.nn.conv2d(x_reshape,w_conv1,strides=<span class="number">1</span>,padding=<span class="string">"SAME"</span>)) + b_conv1</span><br><span class="line">x_pool1 = tf.nn.max_pool(x_relu1,ksize=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>],strides=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>],padding=<span class="string">"SAME"</span>)</span><br><span class="line"><span class="comment">#卷积两层</span></span><br><span class="line">w_conv2 = tf.Variable(tf.random_normal(shape=[<span class="number">5</span>,<span class="number">5</span>,<span class="number">32</span>,<span class="number">64</span>],mean=<span class="number">0.0</span>,stddev=<span class="number">1.0</span>))</span><br><span class="line">b_conv2 = tf.Variable(tf.constant(<span class="number">0.0</span>,shape=[<span class="number">64</span>]))</span><br><span class="line">x_relu2 = tf.nn.relu(tf.nn.conv2d(x_pool1,w_conv2,strides=<span class="number">1</span>,padding=<span class="string">"SAME"</span>)) + b_conv2</span><br><span class="line">x_pool2 = tf.nn.max_pool(x_relu2,ksize=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>],strides=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>],padding=<span class="string">"SAME"</span>)</span><br><span class="line"><span class="comment">#全连接层</span></span><br><span class="line">w_full = tf.Variable(tf.random_normal(shape=[<span class="number">7</span> * <span class="number">7</span> * <span class="number">64</span>,<span class="number">10</span>],mean=<span class="number">0.0</span>,stddev=<span class="number">1.0</span>))</span><br><span class="line">b_full = tf.Variable(tf.constant(<span class="number">0.0</span>,shape=[<span class="number">10</span>]))</span><br><span class="line">x_full_reshape = tf.reshape(x_pool2,[<span class="number">-1</span>,<span class="number">7</span> * <span class="number">7</span> * <span class="number">64</span>])</span><br><span class="line">y_predict = tf.matmul(x_full_reshape,w_full) + b_full</span><br><span class="line">loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=y_true_label,logits=y_predict))</span><br><span class="line"><span class="comment">#softmax表示结果，交叉熵计算损失：真实结果*log预测结果 的积分</span></span><br><span class="line">train_op = tf.train.GradientDescentOptimizer(<span class="number">0.0001</span>).minimize(loss)</span><br><span class="line">init_op = tf.global_variables_initializer()</span><br><span class="line">equal_list = tf.equal(tf.argmax(y_true_label,<span class="number">1</span>),tf.argmax(y_predict,<span class="number">1</span>))</span><br><span class="line">acc = tf.reduce_mean(tf.cast(equal_list,tf.float32))</span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">    sess.run(init_op)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2000</span>):</span><br><span class="line">        mnist_x, mnist_y = mnist.train.next_batch(<span class="number">50</span>)</span><br><span class="line">        sess.run(train_op, feed_dict=&#123;x_true_data: mnist_x, y_true_label: mnist_y&#125;)</span><br><span class="line">        print(<span class="string">"训练第%d次，准确率为：%f"</span> % (i, sess.run(acc, feed_dict=&#123;x_true_data: mnist_x, y_true_label: mnist_y&#125;)))</span><br><span class="line">    <span class="comment"># saver.save(sess, 'C:\\Users\\杨浩伟\\Desktop\\寒假笔记\\模型保存\\mnist')</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="RNN网络："><a href="#RNN网络：" class="headerlink" title="RNN网络："></a>RNN网络：</h2><p><img src="C:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200223190354448.png" alt="image-20200223190354448"></p>
+<p>此网络可以把所有的输入都结合到一块</p>
+<p><img src="C:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200228125531452.png" alt="image-20200228125531452"></p>
+<p>流程：</p>
+<ol>
+<li>将28x28的图片切片，切成1x28的矩阵，对每一个小矩阵进行隐层训练。权重形状为28x128</li>
+<li>得到1x128的矩阵，经过RNN训练，里面有很多的门，进行LSTM训练，返回O_LSTM，S_LSTM两个，O_LSTM作为这第一个切片结果返回，同时S_LSTM带着第一切片的信息参与到第二个切片中的运算中，一直一直走，最后一个切片的O_LSTM是最后的输出结果。</li>
+<li>最后的结果再经过一层，输出类型值。</li>
+</ol>
+<p><img src="C:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200228140941209.png" alt="image-20200228140941209"></p>
+<p><img src="C:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200228141030522.png" alt="image-20200228141030522"></p>
+<p>反向传播也和普通神经网络反向传播不同，会反向传播很多次，每一个输出值都会反向传播一次，</p>
+<p>S0，S1相当于记忆单元，</p>
+<p>RNN缺点：</p>
+<ol>
+<li>记忆单元要记忆的东西很多，可能会导致记忆不清，后面的词的关系也前面词的关系不大</li>
+<li>梯度消失现象，根据链式法则，如果每一个更新的梯度太小，可能会导致整体梯度更小，梯度消失</li>
+</ol>
+<p>解决办法：</p>
+<ol>
+<li>能不能有选择的忘记一些数据</li>
+<li>或者只选择一部分数据继续</li>
+</ol>
+<h3 id="LSTM模型："><a href="#LSTM模型：" class="headerlink" title="LSTM模型："></a>LSTM模型：</h3><p><img src="C:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200228143312973.png" alt="image-20200228143312973"></p>
+<p>普通RNN网络：xt是输入参数，经过合并，经过tanh的激活函数，输出</p>
+<p>LSTM网络：</p>
+<p><img src="C:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200228143538518.png" alt="image-20200228143538518"></p>
+<p>C_t也是是需要训练的值</p>
+<p><img src="C:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200228143939347.png" alt="image-20200228143939347"></p>
+<p>h_t-1与X_t组合，再进行权重偏置，再经过sigmode函数，变为[0-1]，乘C_t-1，即为经过此单元，遗忘的东西</p>
+<p><img src="C:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200228144123629.png" alt="image-20200228144123629"></p>
+<p>再用sigmode后的值，与原本RNN要输出的值相乘，这是要保留的值</p>
+<p><img src="C:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200228150215550.png" alt="image-20200228150215550"></p>
+<p>两个值相加,就为更新后C_t的值</p>
+<p><img src="C:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200229100101932.png" alt="image-20200229100101932"></p>
+<p>产生输出值</p>
+<p><img src="C:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200229100302376.png" alt="image-20200229100302376"></p>
+<p>门单元:通过sigmod函数,矩阵乘积来表示选择性的让信息通过.</p>
+<p><img src="https://img-blog.csdnimg.cn/2019031913144336.jpg#pic_center" alt="img"></p>
+<h3 id="tensorflow-API"><a href="#tensorflow-API" class="headerlink" title="tensorflow API:"></a>tensorflow API:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">lstm&#x3D;tf.nn.rnn_cell.BasicLSTMCell(output_dim,FORGET_BIAS&#x3D;1.0)</span><br><span class="line"></span><br><span class="line">num_units:int类型，LSTM单元中的神经元数量，即输出神经元数量</span><br><span class="line">forget_bias:float类型，偏置增加了忘记门。从CudnnLSTM训练的检查点(checkpoin)恢复时，必须手动设置为0.0。</span><br><span class="line">state_is_tuple:如果为True，则接受和返回的状态是c_state和m_state的2-tuple；如果为False，则他们沿着列轴连接。后一种即将被弃用。</span><br><span class="line">activation:内部状态的激活函数。默认为tanh</span><br><span class="line">reuse:布尔类型，描述是否在现有范围中重用变量。如果不为True，并且现有范围已经具有给定变量，则会引发错误。</span><br><span class="line">name:String类型，层的名称。具有相同名称的层将共享权重，但为了避免错误，在这种情况下需要reuse&#x3D;True.</span><br><span class="line">dtype:该层默认的数据类型。默认值为None表示使用第一个输入的类型。在call之前build被调用则需要该参数。</span><br><span class="line"></span><br><span class="line">例：</span><br><span class="line">lstm&#x3D;tf.nn.rnn_cell.BasicLSTMCell(output_dim,FORGET_BIAS&#x3D;1.0)</span><br><span class="line">LSTM_O,LSTM_S &#x3D; tf.nn.run(lstm,Hsplit,detype&#x3D;tf.float32)</span><br><span class="line">Hsplit:矩阵切片以后的东西</span><br><span class="line"></span><br><span class="line">最终每层的输出值：LSTM_O *W_OUT + BIAS</span><br></pre></td></tr></table></figure>
+
+<h3 id="损失函数：-1"><a href="#损失函数：-1" class="headerlink" title="损失函数："></a>损失函数：</h3><p>softmax加交叉熵。</p>
+<h3 id="RNN处理mnist数据集："><a href="#RNN处理mnist数据集：" class="headerlink" title="RNN处理mnist数据集："></a>RNN处理mnist数据集：</h3><p><img src="C:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200223190426910.png" alt="image-20200223190426910"></p>
+<p>batch_size为5，则切片大小为5x28。</p>
+<h1 id="神经网络设计的技巧"><a href="#神经网络设计的技巧" class="headerlink" title="神经网络设计的技巧:"></a>神经网络设计的技巧:</h1><h2 id="1-感受野："><a href="#1-感受野：" class="headerlink" title="1.感受野："></a>1.感受野：</h2><h2 id="2-参数多少："><a href="#2-参数多少：" class="headerlink" title="2.参数多少："></a>2.参数多少：</h2><h2 id="3-池化层："><a href="#3-池化层：" class="headerlink" title="3.池化层："></a>3.池化层：</h2><h1 id="数据增强："><a href="#数据增强：" class="headerlink" title="数据增强："></a>数据增强：</h1><p>一般数据收集可以是手动收集数据，还有就是对原始数据进行翻倍</p>
+<h2 id="1-水平翻转"><a href="#1-水平翻转" class="headerlink" title="1.水平翻转:"></a>1.水平翻转:</h2><p><img src="C:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200223140007784.png" alt="image-20200223140007784"></p>
+<h2 id="2-随机切割："><a href="#2-随机切割：" class="headerlink" title="2.随机切割："></a>2.随机切割：</h2><p><img src="C:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200223140341549.png" alt="image-20200223140341549"></p>
+<p>两个超参数不太好确定：裁剪的时候的高和宽。</p>
+<h3 id="3-平移："><a href="#3-平移：" class="headerlink" title="3.平移："></a>3.平移：</h3><p>给图片进行平移，包括角度平移，水平平移等。</p>
+<h1 id="物体检测："><a href="#物体检测：" class="headerlink" title="物体检测："></a>物体检测：</h1><h2 id="经典网络架构："><a href="#经典网络架构：" class="headerlink" title="经典网络架构："></a>经典网络架构：</h2><h3 id="alexnet："><a href="#alexnet：" class="headerlink" title="alexnet："></a>alexnet：</h3><p><img src="C:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200223120047300.png" alt="image-20200223120047300"></p>
+<p>就是卷积层和池化层的叠加。</p>
+<p>一共八层。</p>
+<h3 id="VGGNET："><a href="#VGGNET：" class="headerlink" title="VGGNET："></a>VGGNET：</h3><p>一共16层到19层。</p>
+<p><img src="C:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200223125301710.png" alt="image-20200223125301710"></p>
+<p>alexnet的每一层的参数形状都不一样，而VGGNET的卷积层和池化层的每一层参数的形状都一样</p>
+<h3 id="RESNET：残差网络"><a href="#RESNET：残差网络" class="headerlink" title="RESNET：残差网络"></a>RESNET：残差网络</h3><p>VGG的卷积层数只能是19层，层数再往上，效果反而不佳</p>
+<p>而RESNET却可以上百层，原因：</p>
+<p>残差网络里特殊的结构，使得它可以对每一个节点做一个取舍，对负优化的节点使之权重为零，没有损失。</p>
+<h2 id="任务分类："><a href="#任务分类：" class="headerlink" title="任务分类："></a>任务分类：</h2><p><img src="C:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200223122952170.png" alt="image-20200223122952170"></p>
+<p>Classification：分类</p>
+<p>Localization：定位</p>
+<p>Detection：识别，既分类又定位</p>
+<p><img src="C:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200223123209233.png" alt="image-20200223123209233"></p>
+<p>分类和定位任务输入的都是图片，分类输出目标值，用准确率来检查，定位任务输出(x,y,w,h)</p>
+<p><img src="C:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200223123704533.png" alt="image-20200223123704533"></p>
+<p>检查：目标值也是(x,y,w,h)四个值，输出(x,y,w,h)，损失函数就是两个之间的差值，通过差值来优化。</p>
+<p><img src="C:%5CUsers%5C%E6%9D%A8%E6%B5%A9%E4%BC%9F%5CDesktop%5C%E5%AF%92%E5%81%87%E7%AC%94%E8%AE%B0%5Cpng%5Cimage-20200223124008297.png" alt="image-20200223124008297"></p>
+<p>两种不同问题一起解决：可以设置卷积层池化层，得到图像的集合，然后全连接层设置两个，一个采用softmax，一个采用欧氏距离来进行计算。</p>
+<h2 id="物体检测算法"><a href="#物体检测算法" class="headerlink" title="物体检测算法:"></a>物体检测算法:</h2><h3 id="R-CNN"><a href="#R-CNN" class="headerlink" title="R-CNN:"></a>R-CNN:</h3><h3 id="Fast-R-CNN"><a href="#Fast-R-CNN" class="headerlink" title="Fast R-CNN:"></a>Fast R-CNN:</h3><h3 id="Faster-R-CNN"><a href="#Faster-R-CNN" class="headerlink" title="Faster R-CNN:"></a>Faster R-CNN:</h3><h1 id="过拟合"><a href="#过拟合" class="headerlink" title="过拟合:"></a>过拟合:</h1><p><strong>原因:</strong></p>
+<ol>
+<li>数据不适合构建的网络</li>
+<li>网络太深,导致过拟合</li>
+</ol>
+<p><strong>网络太深</strong>,<strong>导致过拟合的解决</strong>:</p>
+<p>如果两万次以后,出现了过拟合,那就训练两万次,然后将学习率调小,接着训练就行.</p>
+<h1 id="RBF（径向基）神经网络："><a href="#RBF（径向基）神经网络：" class="headerlink" title="RBF（径向基）神经网络："></a>RBF（径向基）神经网络：</h1><p>局部作用，在局部作用中，每个神经元只对特定的区域的输入产生相应</p>
+<p>依据：感受野</p>
+<p>一个感受神经元的感受野是指位于这一区域的适当刺激能够引起该神经元反应的区域。人类感受野的变化在网络中可以以权重系数的形式展现，按照感受野的变化规律设置权重系数，可得到神经网络。</p>
+<p>RBF神经网络是一种三层神经网络，其包括<strong>输入层</strong>、<strong>隐层</strong>、<strong>输出层</strong>。从输入空间到隐层空间的变换是非线性的，而从隐层空间到输出层空间变换是线性的。流图如下：</p>
+<p><img src="https://images2018.cnblogs.com/blog/729758/201807/729758-20180722122344255-429345489.png" alt="img"></p>
+<p><strong>其中，隐含层的作用是把向量从低维度的p映射到高维度的h，这样低维度线性不可分的情况到高维度就可以变得线性可分了，主要就是核函数的思想。</strong></p>
+<p>径向基函数只是取决于与中心矢量的距离的函数，只要与中心点的距离一致，函数值就相同。</p>
+<p>径向函数表达式：</p>
+<p>c_i为每个中心向量的权重系数，一般所有的高斯函数都会共享同一个带宽，将不同的隐藏单元区分开来的是中心向量权重系数，</p>
+<p><img src="https://images2018.cnblogs.com/blog/729758/201807/729758-20180722113358463-2118289527.png" alt="img"></p>
+<h2 id="为什么高斯核函数就是映射到高维空间"><a href="#为什么高斯核函数就是映射到高维空间" class="headerlink" title="为什么高斯核函数就是映射到高维空间"></a>为什么高斯核函数就是映射到高维空间</h2><p> 　首先给出高斯核函数的定义公式：</p>
+<p><img src="https://images2018.cnblogs.com/blog/729758/201807/729758-20180722153943447-1207074806.png" alt="img"></p>
+<p>　　实际上，可以化简为：</p>
+<p><img src="https://images2018.cnblogs.com/blog/729758/201807/729758-20180722154033845-696811220.png" alt="img"></p>
+<p>　　当然通过幂级数展开：</p>
+<p><img src="https://images2018.cnblogs.com/blog/729758/201807/729758-20180722154124519-237978613.png" alt="img"></p>
+<p>　　可以看到，其中X向量会生成类似多项式核展开的形式，譬如原来的参数有x1,x2。映射后，参数包含了x1 x x1 ,x1 x x2,x2 x x2将原来2维映射到3维上了。</p>
+<h2 id="训练步骤："><a href="#训练步骤：" class="headerlink" title="训练步骤："></a>训练步骤：</h2><ol>
+<li><p>初始化中心向量w的位置，中心向量的位置既可以随机分布，也可以通过k-means算法来完成（隐藏层的训练）</p>
+</li>
+<li><p>用线性模型拟合初始化的隐藏层中的各个中心向量，拟合的损失函数设定为最小的均方误差，使用递归最小二乘法，使损失函数最小化。</p>
+</li>
+</ol>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/gabithume" target="_blank" rel="noopener">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#tensorflow基础："><span class="toc-number">1.</span> <span class="toc-text">tensorflow基础：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#tensorflow各变量的内容："><span class="toc-number">1.1.</span> <span class="toc-text">tensorflow各变量的内容：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#计算图的构建"><span class="toc-number">1.1.1.</span> <span class="toc-text">计算图的构建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GPU运算"><span class="toc-number">1.1.2.</span> <span class="toc-text">#GPU运算</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#图："><span class="toc-number">1.2.</span> <span class="toc-text">图：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#op操作"><span class="toc-number">1.3.</span> <span class="toc-text">op操作:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#前后端："><span class="toc-number">1.4.</span> <span class="toc-text">前后端：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#会话："><span class="toc-number">1.5.</span> <span class="toc-text">会话：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#张量："><span class="toc-number">1.6.</span> <span class="toc-text">张量：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TensorFlow-常量"><span class="toc-number">1.6.1.</span> <span class="toc-text">TensorFlow 常量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TensorFlow-变量"><span class="toc-number">1.6.2.</span> <span class="toc-text">TensorFlow 变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TensorFlow-占位符"><span class="toc-number">1.6.3.</span> <span class="toc-text">TensorFlow 占位符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#张量的动态形状与静态形状："><span class="toc-number">1.6.4.</span> <span class="toc-text">张量的动态形状与静态形状：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#扩展阅读："><span class="toc-number">1.6.5.</span> <span class="toc-text">扩展阅读：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#类型转化："><span class="toc-number">1.6.6.</span> <span class="toc-text">类型转化：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#切片与扩展："><span class="toc-number">1.6.7.</span> <span class="toc-text">切片与扩展：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tf-split"><span class="toc-number">1.6.8.</span> <span class="toc-text">tf.split:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tf-tranfpose"><span class="toc-number">1.6.9.</span> <span class="toc-text">tf.tranfpose:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#矩阵操作："><span class="toc-number">1.7.</span> <span class="toc-text">矩阵操作：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#平方："><span class="toc-number">1.7.1.</span> <span class="toc-text">平方：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#均值"><span class="toc-number">1.7.2.</span> <span class="toc-text">均值:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#乘法："><span class="toc-number">1.7.3.</span> <span class="toc-text">乘法：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#除法："><span class="toc-number">1.7.4.</span> <span class="toc-text">除法：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#变量作用域："><span class="toc-number">1.7.5.</span> <span class="toc-text">变量作用域：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#模型的保存与加载："><span class="toc-number">1.8.</span> <span class="toc-text">模型的保存与加载：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#命令行参数："><span class="toc-number">1.9.</span> <span class="toc-text">命令行参数：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tensorflow数据读取："><span class="toc-number">1.10.</span> <span class="toc-text">tensorflow数据读取：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#tensorflow队列："><span class="toc-number">1.10.1.</span> <span class="toc-text">tensorflow队列：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#tf-FIFOQueue"><span class="toc-number">1.10.1.1.</span> <span class="toc-text">tf.FIFOQueue:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ft-RandomShuffleQueue"><span class="toc-number">1.10.1.2.</span> <span class="toc-text">ft.RandomShuffleQueue:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#队列管理器："><span class="toc-number">1.10.1.3.</span> <span class="toc-text">队列管理器：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#线程协调器："><span class="toc-number">1.10.1.4.</span> <span class="toc-text">线程协调器：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件读取："><span class="toc-number">1.11.</span> <span class="toc-text">文件读取：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#文件队列的构造："><span class="toc-number">1.11.1.</span> <span class="toc-text">文件队列的构造：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件阅读器："><span class="toc-number">1.11.2.</span> <span class="toc-text">文件阅读器：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件阅读解码："><span class="toc-number">1.11.3.</span> <span class="toc-text">文件阅读解码：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#开启线程操作："><span class="toc-number">1.11.4.</span> <span class="toc-text">开启线程操作：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#管道读端批处理："><span class="toc-number">1.11.5.</span> <span class="toc-text">管道读端批处理：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#图片的读取："><span class="toc-number">1.12.</span> <span class="toc-text">图片的读取：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#图片基本操作："><span class="toc-number">1.12.1.</span> <span class="toc-text">图片基本操作：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#图片读取："><span class="toc-number">1.12.2.</span> <span class="toc-text">图片读取：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#图片储存与计算类型："><span class="toc-number">1.12.3.</span> <span class="toc-text">图片储存与计算类型：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二进制版本："><span class="toc-number">1.12.4.</span> <span class="toc-text">二进制版本：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TFRecords分析提取"><span class="toc-number">1.13.</span> <span class="toc-text">TFRecords分析提取</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TFRecords的存储："><span class="toc-number">1.13.1.</span> <span class="toc-text">TFRecords的存储：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TFrecords的读取："><span class="toc-number">1.13.2.</span> <span class="toc-text">TFrecords的读取：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tensorflow与深度学习"><span class="toc-number">1.14.</span> <span class="toc-text">tensorflow与深度学习</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通过feed-dict传递数据"><span class="toc-number">1.15.</span> <span class="toc-text">通过feed_dict传递数据</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#神经网络的过拟合解决问题："><span class="toc-number">2.</span> <span class="toc-text">神经网络的过拟合解决问题：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#优化："><span class="toc-number">3.</span> <span class="toc-text">优化：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据预处理："><span class="toc-number">4.</span> <span class="toc-text">数据预处理：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#深度学习："><span class="toc-number">5.</span> <span class="toc-text">深度学习：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#SVM损失函数："><span class="toc-number">5.1.</span> <span class="toc-text">SVM损失函数：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于SVM的正则化惩罚："><span class="toc-number">5.2.</span> <span class="toc-text">关于SVM的正则化惩罚：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tensorflow三个模块："><span class="toc-number">5.3.</span> <span class="toc-text">tensorflow三个模块：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#softMax回归："><span class="toc-number">5.4.</span> <span class="toc-text">softMax回归：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SVM与softMax的比较："><span class="toc-number">5.5.</span> <span class="toc-text">SVM与softMax的比较：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#损失函数："><span class="toc-number">5.6.</span> <span class="toc-text">损失函数：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#交叉熵损失函数："><span class="toc-number">5.6.1.</span> <span class="toc-text">交叉熵损失函数：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#全连接："><span class="toc-number">5.7.</span> <span class="toc-text">全连接：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#特征加权："><span class="toc-number">5.7.1.</span> <span class="toc-text">特征加权：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#列表平均值计算："><span class="toc-number">5.8.</span> <span class="toc-text">列表平均值计算：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#梯度下降API"><span class="toc-number">5.9.</span> <span class="toc-text">梯度下降API</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#one-hot"><span class="toc-number">5.10.</span> <span class="toc-text">one-hot:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#准确率预测："><span class="toc-number">5.11.</span> <span class="toc-text">准确率预测：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#全连接之mnist训练："><span class="toc-number">5.12.</span> <span class="toc-text">全连接之mnist训练：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#全神经网络的缺点："><span class="toc-number">5.13.</span> <span class="toc-text">全神经网络的缺点：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#梯度爆炸与梯度消失："><span class="toc-number">5.14.</span> <span class="toc-text">梯度爆炸与梯度消失：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#卷积神经网络CNN："><span class="toc-number">5.15.</span> <span class="toc-text">卷积神经网络CNN：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#结构："><span class="toc-number">5.15.1.</span> <span class="toc-text">结构：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#组成："><span class="toc-number">5.15.2.</span> <span class="toc-text">组成：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#卷积层计算过程："><span class="toc-number">5.15.3.</span> <span class="toc-text">卷积层计算过程：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参数共享："><span class="toc-number">5.15.4.</span> <span class="toc-text">参数共享：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#卷积层API："><span class="toc-number">5.15.5.</span> <span class="toc-text">卷积层API：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#新激活函数："><span class="toc-number">5.15.6.</span> <span class="toc-text">新激活函数：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#池化层："><span class="toc-number">5.15.7.</span> <span class="toc-text">池化层：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#全连接层："><span class="toc-number">5.15.8.</span> <span class="toc-text">全连接层：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#前向传播与反向传播"><span class="toc-number">5.15.9.</span> <span class="toc-text">前向传播与反向传播:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#卷积神经网络实现mnist训练："><span class="toc-number">5.15.10.</span> <span class="toc-text">卷积神经网络实现mnist训练：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RNN网络："><span class="toc-number">5.16.</span> <span class="toc-text">RNN网络：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#LSTM模型："><span class="toc-number">5.16.1.</span> <span class="toc-text">LSTM模型：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tensorflow-API"><span class="toc-number">5.16.2.</span> <span class="toc-text">tensorflow API:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#损失函数：-1"><span class="toc-number">5.16.3.</span> <span class="toc-text">损失函数：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RNN处理mnist数据集："><span class="toc-number">5.16.4.</span> <span class="toc-text">RNN处理mnist数据集：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#神经网络设计的技巧"><span class="toc-number">6.</span> <span class="toc-text">神经网络设计的技巧:</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-感受野："><span class="toc-number">6.1.</span> <span class="toc-text">1.感受野：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-参数多少："><span class="toc-number">6.2.</span> <span class="toc-text">2.参数多少：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-池化层："><span class="toc-number">6.3.</span> <span class="toc-text">3.池化层：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据增强："><span class="toc-number">7.</span> <span class="toc-text">数据增强：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-水平翻转"><span class="toc-number">7.1.</span> <span class="toc-text">1.水平翻转:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-随机切割："><span class="toc-number">7.2.</span> <span class="toc-text">2.随机切割：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-平移："><span class="toc-number">7.2.1.</span> <span class="toc-text">3.平移：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#物体检测："><span class="toc-number">8.</span> <span class="toc-text">物体检测：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#经典网络架构："><span class="toc-number">8.1.</span> <span class="toc-text">经典网络架构：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#alexnet："><span class="toc-number">8.1.1.</span> <span class="toc-text">alexnet：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VGGNET："><span class="toc-number">8.1.2.</span> <span class="toc-text">VGGNET：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RESNET：残差网络"><span class="toc-number">8.1.3.</span> <span class="toc-text">RESNET：残差网络</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#任务分类："><span class="toc-number">8.2.</span> <span class="toc-text">任务分类：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#物体检测算法"><span class="toc-number">8.3.</span> <span class="toc-text">物体检测算法:</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#R-CNN"><span class="toc-number">8.3.1.</span> <span class="toc-text">R-CNN:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Fast-R-CNN"><span class="toc-number">8.3.2.</span> <span class="toc-text">Fast R-CNN:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Faster-R-CNN"><span class="toc-number">8.3.3.</span> <span class="toc-text">Faster R-CNN:</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#过拟合"><span class="toc-number">9.</span> <span class="toc-text">过拟合:</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#RBF（径向基）神经网络："><span class="toc-number">10.</span> <span class="toc-text">RBF（径向基）神经网络：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么高斯核函数就是映射到高维空间"><span class="toc-number">10.1.</span> <span class="toc-text">为什么高斯核函数就是映射到高维空间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#训练步骤："><span class="toc-number">10.2.</span> <span class="toc-text">训练步骤：</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/05/13/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-tensorflow%E7%9A%84%E4%BD%BF%E7%94%A8/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/05/13/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-tensorflow%E7%9A%84%E4%BD%BF%E7%94%A8/&text=深度学习-tensorflow的使用" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/05/13/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-tensorflow%E7%9A%84%E4%BD%BF%E7%94%A8/&title=深度学习-tensorflow的使用" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/05/13/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-tensorflow%E7%9A%84%E4%BD%BF%E7%94%A8/&is_video=false&description=深度学习-tensorflow的使用" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=深度学习-tensorflow的使用&body=Check out this article: http://yoursite.com/2020/05/13/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-tensorflow%E7%9A%84%E4%BD%BF%E7%94%A8/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/05/13/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-tensorflow%E7%9A%84%E4%BD%BF%E7%94%A8/&title=深度学习-tensorflow的使用" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/05/13/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-tensorflow%E7%9A%84%E4%BD%BF%E7%94%A8/&title=深度学习-tensorflow的使用" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/05/13/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-tensorflow%E7%9A%84%E4%BD%BF%E7%94%A8/&title=深度学习-tensorflow的使用" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/05/13/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-tensorflow%E7%9A%84%E4%BD%BF%E7%94%A8/&title=深度学习-tensorflow的使用" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/05/13/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-tensorflow%E7%9A%84%E4%BD%BF%E7%94%A8/&name=深度学习-tensorflow的使用&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/gabithume" target="_blank" rel="noopener">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+
